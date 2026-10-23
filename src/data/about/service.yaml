@@ -1,0 +1,15 @@
+# About › Service.
+- title: Program committees
+  year: 2026 – 2027
+  logo: aaai.png
+  text: AAAI 2027, IEEE BHI 2026, ICML 2026 AI4Law Workshop, CIKM 2026 LASS Workshop.
+- title: Journal reviewing
+  year: 2022 – Present
+  logo: icon-book-open-check.png
+  text: ==24+== reviews across ==8 journals==, including Scientific Reports, Communications AI & Computing, Neural Computing and Applications, and Discover AI.
+- title: ACM ICAIF 2023
+  year: "2023"
+  logo: acm.png
+  text: Workshop organizing committee member; co-presented the tutorial Large Language Models for NLP in Finance.
+  links:
+    - { label: Slides, url: "https://limanling.github.io/uploads/slides/LargeLanguageModelsforNLPinFinance.pdf" }

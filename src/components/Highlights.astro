@@ -1,0 +1,61 @@
+---
+// "At a Glance" on Home: three cards, each a big figure,
+// a caption, fixed-height hairline rows and a footnote. Content: src/data/highlights.yaml.
+import { getHighlights } from '../lib/highlights';
+
+const cards = await getHighlights();
+---
+
+<div class="glance">
+  {cards.map((c) => (
+    <article class="glance-card">
+      <span class="kicker">{c.kicker}</span>
+      <p class="glance__figure">
+        <span class="glance__value">{c.figure.value}</span>
+        <span class="glance__unit">{c.figure.unit}</span>
+      </p>
+      <p class="glance__caption">{c.caption}</p>
+      <div class="glance__mid">
+        {c.rows && (
+          <ul class="glance__rows">
+            {c.rows.map((r) => (
+              <li class="glance__row">
+                <span class="glance__num">{r.value}</span>
+                <span class="glance__label">{r.label}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+        {c.table && (
+          <table class="glance__rows">
+            {c.table.head && (
+              <thead class="visually-hidden">
+                <tr>{c.table.head.map((h) => <th scope="col">{h}</th>)}</tr>
+              </thead>
+            )}
+            <tbody>
+              {c.table.rows.map(([family, work, venue]) => (
+                <tr class="glance__row glance__row--3">
+                  <th scope="row" class="glance__strong">{family}</th>
+                  <td>{c.table!.links?.[work] ? <a href={c.table!.links[work]}>{work}</a> : work}</td>
+                  <td class="glance__muted">{venue}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+        {c.pairs && (
+          <ul class="glance__rows">
+            {c.pairs.map((p) => (
+              <li class="glance__row">
+                <span class="glance__label">{p.label}</span>
+                <span class="glance__name">{p.value}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+      <p class="glance__foot">{c.footnote}</p>
+    </article>
+  ))}
+</div>

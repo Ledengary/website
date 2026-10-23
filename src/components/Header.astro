@@ -1,0 +1,38 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  current?: 'home' | 'research' | 'about';
+  brand: string;
+}
+
+const { current, brand } = Astro.props;
+// Off Home, the portrait sits before the name in the same disc as the Home intro (Home already shows it large).
+const found = import.meta.glob<ImageMetadata>('/src/assets/images/portrait.{jpg,jpeg,png,webp}', { eager: true, import: 'default' });
+const portrait = current === 'home' ? undefined : Object.values(found)[0];
+const items = [
+  { key: 'home', label: 'Home', href: '/' },
+  { key: 'about', label: 'About', href: '/about/' },
+  { key: 'research', label: 'Research', href: '/research/' },
+  { key: 'resume', label: 'Resume', href: '/resume.pdf' },
+];
+---
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="brand" href="/">
+      {portrait && (
+        <span class="brand__photo" aria-hidden="true">
+          <Image class="hero__photo-img" src={portrait} alt="" width={96} height={96} fit="cover" loading="eager" />
+        </span>
+      )}
+      {brand}
+    </a>
+    <nav class="site-nav" aria-label="Main">
+      {items.map((item) => (
+        <a href={item.href} aria-current={item.key === current ? 'page' : undefined}>{item.label}</a>
+      ))}
+    </nav>
+  </div>
+</header>

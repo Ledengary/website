@@ -1,0 +1,40 @@
+# "At a Glance" on Home: three cards, rendered by src/components/Highlights.astro.
+#
+# "{citations}" and "{h_index}" are replaced with the numbers in src/data/scholar.json;
+# never type them.
+#
+# Each card: kicker, figure (big number + unit), one-line caption, one set of rows, footnote.
+#   rows    number left, label right
+#   table   [family, work, venue] rows: left, centred, right
+#   pairs   label left, value right
+
+- kicker: Track Record
+  figure: { value: 8+, unit: years }
+  caption: of AI and NLP research
+  rows:
+    - { value: 20+, label: Publications }
+    - { value: "{citations}", label: Citations }
+    - { value: "{h_index}", label: h-index }
+  footnote: From low-resource NLP in 2018 to confidence estimation for language models in 2026
+
+- kicker: Confidence Estimation
+  figure: { value: "3", unit: model families }
+  caption: with SOTA estimators
+  table:
+    rows:
+      - [LLMs, CCPS, "EMNLP'25"]
+      - [LRMs, RMCB, "EACL'26"]
+      - [VLMs, BICR, "AACL'26"]
+    links:            # the middle column links to each paper on /research
+      CCPS: /research#ccps-emnlp25
+      RMCB: /research#rmcb-eacl26
+      BICR: /research#bicr-aacl26
+  footnote: "All main-conference papers; EMNLP'25 Outstanding Paper nominee (top 0.4%)"
+
+- kicker: Oncology & Financial AI
+  figure: { value: 4+, unit: years }
+  caption: of partner-funded research
+  pairs:
+    - { label: Oncology, value: Henry Ford Health }
+    - { label: Finance, value: JPMorgan AI Research }
+  footnote: "7 premier oncology presentations, including an oral (top 11%) and a spotlight at ASTRO'26"

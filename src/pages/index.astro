@@ -1,0 +1,23 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Section from '../components/Section.astro';
+import Highlights from '../components/Highlights.astro';
+import NewsCallout from '../components/NewsCallout.astro';
+---
+
+<Base current="home" person>
+  <Hero />
+
+  {/* Highlights sit directly under the hero: no rule, no visible title (screen readers still get one). */}
+  <section class="section section--flush" id="glance" aria-labelledby="glance-title">
+    <div class="section__inner">
+      <h2 class="visually-hidden" id="glance-title">At a Glance</h2>
+      <Highlights />
+    </div>
+  </section>
+
+  <Section title="News" id="news" alt rule>
+    <NewsCallout />
+  </Section>
+</Base>

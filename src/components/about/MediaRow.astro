@@ -1,0 +1,37 @@
+---
+// One media item on About › In the Media (date on the right, like the other rows): logo, bold title, then "outlet · byline · format" and the
+// Read / Listen / Watch button. Data: src/data/media.yaml.
+import type { CollectionEntry } from 'astro:content';
+import { logo } from '../../lib/logos';
+import { shortMonthYear } from '../../lib/text';
+import Links from './Links.astro';
+
+interface Props {
+  item: CollectionEntry<'media'>['data'];
+}
+const { item: m } = Astro.props;
+const img = logo(m.logo);
+const FORMAT = { article: 'Article', radio: 'Radio interview', tv: 'TV interview' } as const;
+const ICON = { Read: 'news', Listen: 'listen', Watch: 'watch' } as const;
+// "2025-11-13" -> "Nov 2025", matching the other dates on the page.
+const date = shortMonthYear(m.date.slice(0, 7));
+// Articles credit the writer ("by …"); radio names the show; TV shows the outlet only.
+const byline = m.format === 'article' && m.byline ? `by ${m.byline}` : m.format === 'radio' ? m.byline : undefined;
+const meta = [m.outlet, byline, FORMAT[m.format]].filter(Boolean).join(' · ');
+---
+
+<li class:list={['arow', 'media-row', { 'arow--logo': img }]}>
+  {img && (
+    <span class="org__logo">
+      <img class="about-logo" src={img.src} alt="" width={img.width} height={img.height} loading="lazy" decoding="async" />
+    </span>
+  )}
+  <div class="arow__body">
+    <p class="arow__text">
+      <strong>{m.title}</strong>
+      <span class="media__meta">{meta}</span>
+      <Links links={[{ label: m.cta, url: m.url, icon: ICON[m.cta] }]} />
+    </p>
+  </div>
+  <span class="arow__year">{date}</span>
+</li>

@@ -1,0 +1,26 @@
+---
+// A compact row, like the News list: bold title, then the context, in one paragraph; year on the right.
+import type { CollectionEntry } from 'astro:content';
+import { logo } from '../../lib/logos';
+import { figures } from '../../lib/text';
+import Links from './Links.astro';
+
+interface Props {
+  row: CollectionEntry<'honors'>['data'];
+}
+const { row: r } = Astro.props;
+const img = logo(r.logo);
+const stop = (t: string) => (/[.?!]$/.test(t) ? t : `${t}.`);
+---
+
+<li class:list={['arow', { 'arow--logo': img }]}>
+  {img && (
+    <span class="org__logo">
+      <img class="about-logo" src={img.src} alt="" width={img.width} height={img.height} loading="lazy" decoding="async" />
+    </span>
+  )}
+  <div class="arow__body">
+    <p class="arow__text"><strong>{stop(r.title)}</strong> <Fragment set:html={figures(r.text)} /><Links links={r.links} /></p>
+  </div>
+  {r.year && <span class="arow__year">{r.year}</span>}
+</li>

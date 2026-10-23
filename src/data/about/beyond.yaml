@@ -1,0 +1,22 @@
+# About › Beyond Research.
+- title: FISU Most Active Student Ambassador
+  year: "2020"
+  text: Ranked in the ==top 10%== of 130 ambassadors representing 80 countries.
+  logo: fisu.png
+  # The ambassador profile link is in docs/LINKS_TODO.md (its site no longer resolves).
+- title: FISU Volunteer Leaders Academy
+  year: "2019"
+  text: Ranked first in Iran's national university sports federation selection and chosen as the national representative.
+  logo: fisu.png
+  links:
+    - { label: Academy, url: "https://www.fisu.net/education/fisu-volunteer-leaders-academy" }
+- title: Running
+  year: "2024"
+  text: Ran a half marathon in northern Michigan in July, then a full marathon in Long Beach, California, that October.
+  logo: icon-run.png
+  links:
+    - { label: Alpenfest Half Marathon, url: "https://www.athlinks.com/event/13893/results/Event/1092592/Course/2522465/Bib/1012" }
+    - { label: Long Beach Marathon, url: "https://www.athlinks.com/event/20146/results/Event/1093218/Course/2525010/Bib/21303" }
+- title: Languages
+  logo: icon-languages.png
+  text: English (fluent, IELTS 7.5) · German (intermediate, Goethe-Zertifikat) · Persian (native)

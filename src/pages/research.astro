@@ -1,0 +1,443 @@
+---
+// Research: intro, three category cards that filter the list, then every paper grouped by theme
+// and subgroup. Without JS the cards are plain links to each theme and every paper shows.
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PaperRow from '../components/PaperRow.astro';
+import PresentationCard from '../components/PresentationCard.astro';
+import type { ImageMetadata } from 'astro';
+
+const papers = (await getCollection('publications')).sort((a, b) => a.data.order - b.data.order);
+
+// Collaborators and Support: official logos from src/assets/logos/, sized per logo in the data file.
+const logoFiles = import.meta.glob<ImageMetadata>('/src/assets/logos/*.{svg,png}', { eager: true, import: 'default' });
+const collaborators = (await getCollection('collaborators'))
+  .map((e) => e.data)
+  .sort((a, b) => a.order - b.order)
+  .map((c) => ({ ...c, img: logoFiles[`/src/assets/logos/${c.logo}`] }));
+
+// Presentations: newest first ("YYYY" alone sorts after the dated ones of its year).
+const sortKey = (d: string) => (d.length === 4 ? `${d}-00` : d);
+const presentations = (await getCollection('presentations'))
+  .map((e) => e.data)
+  .sort((a, b) => sortKey(b.date).localeCompare(sortKey(a.date)));
+
+const THEMES = [
+  {
+    key: 'confidence',
+    label: 'Confidence & Reliability',
+    short_label: 'Confidence', // mobile tab strip
+    blurb: 'Estimators that tell when language, reasoning, and vision-language models are likely wrong, and where they break.',
+  },
+  {
+    key: 'oncology',
+    label: 'LLMs for Oncology',
+    short_label: 'Oncology',
+    blurb: 'Privacy-preserving LLMs that extract and grade treatment toxicities from clinical notes, with Henry Ford Health.',
+  },
+  {
+    key: 'earlier',
+    label: 'Earlier Work',
+    short_label: 'Earlier Work',
+    blurb: 'Low-resource NLP and applied machine learning in finance, sports, and health signals.',
+  },
+] as const;
+
+// Subgroups keep their first-appearance order in publications.yaml; papers inside sort newest first
+// (stable, so same-year papers keep file order; papers with no year, i.e. under review, come first).
+const themes = THEMES.map((t) => {
+  const inTheme = papers.filter((p) => p.data.theme === t.key);
+  const subgroups = [...new Set(inTheme.map((p) => p.data.subgroup))].map((name) => ({
+    name,
+    papers: inTheme
+      .filter((p) => p.data.subgroup === name)
+      .sort((a, b) => (b.data.year ?? 9999) - (a.data.year ?? 9999)),
+  }));
+  return { ...t, count: inTheme.length, subgroups };
+});
+---
+
+<Base title="Research" current="research" description="Research by Reza Khan Mohammadi on confidence estimation for language, reasoning, and vision-language models, with applications in oncology and finance: papers, presentations, and collaborators.">
+  <section class="section section--page">
+    {/* The selected tab's outline and the band's top line: one SVG path, drawn by the script. */}
+    <svg class="tab-outline" aria-hidden="true" focusable="false" hidden>
+      <defs>
+        {/* Everything above the line's bottom edge: keeps the glow off the band. */}
+        <clipPath id="tab-outline-clip" clipPathUnits="userSpaceOnUse"><rect class="clip-above" /></clipPath>
+      </defs>
+      <path class="tab-outline__stroke" clip-path="url(#tab-outline-clip)" />
+    </svg>
+    <div class="section__inner">
+      <h1 class="section__title section__title--rule">Research</h1>
+      <nav class="jumps" aria-label="On this page">
+        <ul class="dots">
+          <li><a href="#papers">Papers</a></li>
+          <li><a href="#presentations">Presentations</a></li>
+          <li><a href="#collaborators">Collaborators</a></li>
+        </ul>
+      </nav>
+      <p class="page-intro">
+        I started in low-resource NLP, then moved into machine learning for cancer care and finance, where a
+        wrong prediction can cause real harm. Working there showed me how often models fail without warning,
+        which led to my current focus: confidence estimation, building methods that let language, reasoning,
+        and vision-language models tell when their own answers are likely wrong.
+      </p>
+
+      <div class="pubs" id="papers" data-pub-filter>
+        <h2 class="visually-hidden">Research areas</h2>
+        {/* One set of buttons: cards from 640px, a sliding tab strip below that ("All" shows only there). */}
+        <div class="cat-strip">
+        <div class="cat-cards" aria-label="Filter papers by research area">
+          <a class="cat-card cat-card--all" href="#pub-list" data-theme="all">
+            <span class="kicker">All</span><span class="cat-card__count">{papers.length}</span>
+          </a>
+          {themes.map((t) => (
+            <a class="glance-card cat-card" href={`#theme-${t.key}`} data-theme={t.key}>
+              <span class="kicker"><span class="cat-card__label">{t.label}</span><span class="cat-card__short">{t.short_label}</span></span>
+              <span class="cat-card__blurb">{t.blurb}</span>
+              <span class="cat-card__count">{t.count}</span>
+            </a>
+          ))}
+        </div>
+
+        </div>
+
+        <div id="pub-list" class="pubs__list" aria-live="polite">
+          <span class="band-seg band-seg--l" aria-hidden="true"></span>
+          <span class="band-seg band-seg--r" aria-hidden="true"></span>
+          <p class="pubs__blurb" data-blurb hidden></p>
+          <p class="visually-hidden" data-status></p>
+          {themes.map((t) => (
+            <section class="pub-theme" id={`theme-${t.key}`} data-theme={t.key} aria-labelledby={`theme-${t.key}-title`}>
+              {/* "Show all" sits at the end of the heading's hairline; it only shows while filtering. */}
+              <div class="pub-theme__head">
+                <h2 class="pub-theme__title section__title--rule" id={`theme-${t.key}-title`}>
+                  {t.label} · {t.count}x
+                </h2>
+                <button type="button" class="cat-reset__btn">Show all {papers.length}</button>
+              </div>
+              {t.subgroups.map((g) => (
+                <div class="pub-group">
+                  <h3 class="kicker pub-group__label">{g.name}</h3>
+                  <ul class="papers">
+                    {g.papers.map((p) => <PaperRow paper={p} />)}
+                  </ul>
+                </div>
+              ))}
+            </section>
+          ))}
+        </div>
+      </div>
+    </div>
+    {/* The selected tab's grey fill, below the tab text (drawn by the script with the outline). */}
+    <svg class="tab-under" aria-hidden="true" focusable="false" hidden><path /></svg>
+  </section>
+
+  {/* After the papers the bands alternate: nothing selected (papers on white) → Presentations grey,
+      Collaborators white; a card selected (papers on grey) → Presentations white, Collaborators grey.
+      Both follow .is-after-band, set by the filter script from its one state. */}
+  <section class="section pres" id="presentations" aria-labelledby="presentations-title">
+    <div class="section__inner">
+      <h2 class="section__title section__title--rule pres__title" id="presentations-title">Presentations · {presentations.length}x</h2>
+      <ul class="pres__grid">
+        {presentations.map((p) => <PresentationCard item={p} />)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section collab" id="collaborators" aria-labelledby="collaborators-title">
+    <div class="section__inner">
+      <h2 class="section__title section__title--rule collab__title" id="collaborators-title">Collaborators and Support</h2>
+      <p class="collab__intro">Organizations that have funded or collaborated on my research.</p>
+      <ul class="collab__logos">
+        {collaborators.map((c) => (
+          <li>
+            {c.img ? (
+              <img class="logo-hover" src={c.img.src} alt={c.name} height={c.height} width={Math.round((c.img.width / c.img.height) * c.height)} style={`height: ${c.height}px`} loading="lazy" decoding="async" />
+            ) : (
+              <span class="collab__name">{c.name}</span>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Base>
+
+{/* Inline so the cards become buttons before first paint. One state (state.key: a theme, or null for
+    all) drives everything: buttons, card styling, band, outline path, list filtering, blurb, status
+    and "Show all". Without JS the cards stay links to each theme and every paper shows. */}
+<script is:inline>
+  document.querySelectorAll('[data-pub-filter]').forEach((root) => {
+    const section = root.closest('section');
+    const strip = root.querySelector('.cat-cards');
+    const wrap = strip.parentElement;
+    const list = root.querySelector('#pub-list');
+    const themes = [...list.querySelectorAll('.pub-theme')];
+    const blurb = list.querySelector('[data-blurb]');
+    const resets = [...list.querySelectorAll('.cat-reset__btn')];
+    const status = list.querySelector('[data-status]');
+    const afterBand = document.querySelectorAll('.pres, .collab'); // the sections below the papers
+    const svg = section.querySelector('.tab-outline');
+    const stroke = svg.querySelector('.tab-outline__stroke');
+    const under = section.querySelector('.tab-under');
+    const fill = under.querySelector('path');
+    const clipAbove = svg.querySelector('.clip-above');
+    const segL = list.querySelector('.band-seg--l');
+    const segR = list.querySelector('.band-seg--r');
+    const narrow = window.matchMedia('(max-width: 639px)');
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    // Swap each anchor for a real button with the same content.
+    const buttons = [...strip.querySelectorAll('.cat-card')].map((a) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = a.className;
+      b.dataset.theme = a.dataset.theme;
+      b.setAttribute('aria-controls', 'pub-list');
+      b.innerHTML = a.innerHTML;
+      a.replaceWith(b);
+      return b;
+    });
+    const cards = buttons.filter((b) => b.dataset.theme !== 'all');
+    const buttonFor = (key) => buttons.find((b) => b.dataset.theme === (key ?? 'all'));
+
+    // The single source of truth.
+    const state = { key: null };
+
+    // Mobile strip: [‹][viewport][›]. Arrows sit outside the scrolling viewport; a short fade inside
+    // each viewport edge (tab row only) shows only on a side that can scroll. Neither are tabs.
+    const arrows = ['left', 'right'].map((dir) => {
+      const a = document.createElement('button');
+      a.type = 'button';
+      a.className = `cat-arrow cat-arrow--${dir} is-off`;
+      a.tabIndex = -1;
+      a.setAttribute('aria-label', `Scroll categories ${dir}`);
+      a.innerHTML =
+        '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+        (dir === 'left' ? '<path d="m15 18-6-6 6-6"/>' : '<path d="m9 18 6-6-6-6"/>') +
+        '</svg>';
+      a.addEventListener('click', () => {
+        const step = Math.round(strip.clientWidth * 0.45);
+        strip.scrollBy({ left: dir === 'left' ? -step : step, behavior: reduced.matches ? 'auto' : 'smooth' });
+      });
+      dir === 'left' ? wrap.prepend(a) : wrap.append(a);
+      return a;
+    });
+    // Fades: one mask, shared by the strip (tab labels) and the selected tab's layers (outline, fill,
+    // glow), fading to transparent toward an edge whose arrow is showing. FADE px wide on either side.
+    const FADE = 18;
+    const can = [false, false]; // [left, right] arrow showing
+    const updateArrows = () => {
+      const max = strip.scrollWidth - strip.clientWidth;
+      [strip.scrollLeft > 1, strip.scrollLeft < max - 1].forEach((c, i) => (can[i] = narrow.matches && max > 1 && c));
+      arrows.forEach((a, i) => a.classList.toggle('is-off', !can[i]));
+      const [fl, fr] = can.map((c) => (c ? FADE : 0));
+      strip.dataset.fadeLeft = fl;
+      strip.dataset.fadeRight = fr;
+      const m = fl || fr ? `linear-gradient(to right, transparent 0, #000 ${fl}px, #000 calc(100% - ${fr}px), transparent 100%)` : '';
+      strip.style.maskImage = strip.style.webkitMaskImage = m;
+    };
+
+    // The selected tab's layer: its outline (concave curve, sides, rounded top, concave curve, ending on
+    // the band line) and its grey fill. The band line is two segments outside the tab's full span.
+    // Measured in the overlay's own space (its containing block is the section): element rect minus
+    // section rect, snapped to the device pixel grid, with the 2px stroke centred 1px inside each edge.
+    const CURVE = 14; // concave radius
+    const PAD = 24; // room above the tab for the glow
+    const drawOutline = () => {
+      const sel = state.key && buttonFor(state.key);
+      if (!sel) {
+        [svg, under].forEach((el) => el.toggleAttribute('hidden', true)); // SVG elements have no .hidden property
+        stroke.removeAttribute('d');
+        fill.removeAttribute('d');
+        return;
+      }
+      [svg, under].forEach((el) => el.toggleAttribute('hidden', false));
+      // Device pixels at 1x and up; whole CSS pixels when zoomed out below 1x (a device grid coarser
+      // than 1px would move the outline off the tab's edge).
+      const dpr = Math.max(1, window.devicePixelRatio || 1);
+      const snap = (v) => Math.round(v * dpr) / dpr;
+      const box = section.getBoundingClientRect();
+      const c = sel.getBoundingClientRect();
+      const l = list.getBoundingClientRect();
+      const W = snap(box.width);
+      const top = snap(c.top - box.top) - PAD; // overlay's top within the section
+      const Y = snap(l.top - box.top) - top + 1; // centre of the band's 2px top line
+      const L = snap(c.left - box.left) + 1;
+      const R = snap(c.right - box.left) - 1;
+      const T = PAD + 1;
+      const r = Math.max(0, parseFloat(getComputedStyle(sel).borderTopLeftRadius) - 1);
+      for (const el of [svg, under]) {
+        el.style.top = `${top}px`;
+        el.setAttribute('width', W);
+        el.setAttribute('height', Y + 3);
+        el.setAttribute('viewBox', `0 0 ${W} ${Y + 3}`);
+      }
+      stroke.setAttribute(
+        'd',
+        `M ${L - CURVE} ${Y} A ${CURVE} ${CURVE} 0 0 0 ${L} ${Y - CURVE} V ${T + r} A ${r} ${r} 0 0 1 ${L + r} ${T} ` +
+          `H ${R - r} A ${r} ${r} 0 0 1 ${R} ${T + r} V ${Y - CURVE} A ${CURVE} ${CURVE} 0 0 0 ${R + CURVE} ${Y}`,
+      );
+      // The grey fill: the whole tab and both concave corners, down through the line into the band.
+      fill.setAttribute(
+        'd',
+        `M ${L - CURVE} ${Y} A ${CURVE} ${CURVE} 0 0 0 ${L} ${Y - CURVE} V ${T + r} A ${r} ${r} 0 0 1 ${L + r} ${T} ` +
+          `H ${R - r} A ${r} ${r} 0 0 1 ${R} ${T + r} V ${Y - CURVE} A ${CURVE} ${CURVE} 0 0 0 ${R + CURVE} ${Y} ` +
+          `V ${Y + 2} H ${L - CURVE} Z`,
+      );
+      // Band line: everything outside the tab's full span (outer ends of its curves), from its real
+      // position, even where the tab is faded under an arrow or beyond the viewport.
+      const lx = snap(box.left - l.left); // section origin in list coordinates
+      segL.style.width = `calc(100vmax + ${lx + L - CURVE}px)`;
+      segR.style.left = `${lx + R + CURVE}px`;
+      // If the tab reaches into a showing arrow's zone, it continues off-screen on that side: no line
+      // anywhere in that zone or beyond it.
+      const v = strip.getBoundingClientRect();
+      const vL = snap(v.left - box.left), vR = snap(v.right - box.left);
+      segL.style.display = can[0] && L - CURVE < vL ? 'none' : '';
+      segR.style.display = can[1] && R + CURVE > vR ? 'none' : '';
+      // Only the glow is clipped (kept off the band).
+      clipAbove.setAttribute('x', 0);
+      clipAbove.setAttribute('y', 0);
+      clipAbove.setAttribute('width', W);
+      clipAbove.setAttribute('height', Y + 1);
+      // The same fade as the strip, in the overlay's coordinates: transparent over a showing arrow's zone,
+      // fading in across FADE px at the strip's edge.
+      const fl = can[0] ? FADE : 0, fr = can[1] ? FADE : 0;
+      const A = can[0] ? vL : 0;
+      const B = can[1] ? vR : W;
+      const m = fl || fr ? `linear-gradient(to right, transparent ${A}px, #000 ${A + fl}px, #000 ${B - fr}px, transparent ${B}px)` : '';
+      for (const el of [svg, under]) el.style.maskImage = el.style.webkitMaskImage = m;
+    };
+
+    // Geometry follows layout: one rAF-throttled pass for arrows and outline.
+    let frame = 0;
+    const relayout = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        updateArrows();
+        drawOutline();
+      });
+    };
+
+    // Scroll the selected tab fully into view, clear of the faded edges. Scrolling shows or hides the
+    // arrows, which changes the strip's width, so re-check after each scroll settles (a few rounds).
+    let settleTimer = 0;
+    let revealRun = 0;
+    const reveal = (round = 0, run = ++revealRun) => {
+      if (run !== revealRun) return; // a newer reveal took over
+      const b = buttonFor(state.key);
+      if (!b || strip.scrollWidth <= strip.clientWidth) return;
+      updateArrows();
+      const pad = 30; // fade (18px) + 12px, matching the strip's scroll-padding
+      const s = strip.getBoundingClientRect();
+      const c = b.getBoundingClientRect();
+      let dx = 0;
+      if (c.left - pad < s.left) dx = c.left - pad - s.left;
+      else if (c.right + pad > s.right) dx = c.right + pad - s.right;
+      if (Math.abs(dx) < 1 || round > 3) return relayout();
+      strip.scrollTo({ left: strip.scrollLeft + dx, behavior: reduced.matches ? 'auto' : 'smooth' });
+      clearTimeout(settleTimer);
+      const settle = () => {
+        clearTimeout(settleTimer);
+        strip.removeEventListener('scrollend', settle);
+        reveal(round + 1, run);
+      };
+      strip.addEventListener('scrollend', settle, { once: true });
+      settleTimer = setTimeout(settle, 700);
+    };
+
+    // Render everything from the state.
+    const render = () => {
+      const key = state.key;
+      buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.theme === (key ?? 'all'))));
+      themes.forEach((t) => (t.hidden = key !== null && t.dataset.theme !== key));
+      root.classList.toggle('is-filtered', key !== null);
+      afterBand.forEach((el) => el.classList.toggle('is-after-band', key !== null));
+      const card = key && buttonFor(key);
+      blurb.hidden = !card;
+      blurb.textContent = card ? card.querySelector('.cat-card__blurb').textContent : '';
+      relayout();
+    };
+    const select = (key) => {
+      state.key = key;
+      render();
+      const n = themes.filter((t) => !t.hidden).reduce((sum, t) => sum + t.querySelectorAll('.paper').length, 0);
+      status.textContent = key === null ? `Showing all ${n} papers.` : `Showing ${n} papers.`;
+      reveal();
+    };
+
+    buttons.forEach((b) => {
+      b.addEventListener('click', () => {
+        const key = b.dataset.theme === 'all' ? null : b.dataset.theme;
+        // On wide screens the selected card toggles off; in the mobile strip it stays selected.
+        if (key !== null && key === state.key && !narrow.matches) return select(null);
+        select(key);
+      });
+      b.addEventListener('keydown', (e) => {
+        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+        const visible = buttons.filter((x) => x.offsetParent !== null);
+        const i = visible.indexOf(b);
+        const next = visible[(i + (e.key === 'ArrowRight' ? 1 : -1) + visible.length) % visible.length];
+        e.preventDefault();
+        next.focus({ preventScroll: true });
+        next.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+      });
+    });
+    resets.forEach((r) =>
+      r.addEventListener('click', () => {
+        select(null);
+        (narrow.matches ? buttons[0] : cards[0]).focus();
+      }),
+    );
+
+    strip.addEventListener('scroll', relayout, { passive: true });
+    // After any resize, redraw and keep the selected tab in view (the strip may have narrowed).
+    let resizeTimer = 0;
+    window.addEventListener('resize', () => {
+      relayout();
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => reveal(), 120);
+    });
+    window.addEventListener('pageshow', () => {
+      // Back/forward cache: re-render and bring the selected tab back into view.
+      render();
+      reveal();
+    });
+    narrow.addEventListener('change', () => {
+      render();
+      requestAnimationFrame(() => reveal());
+    });
+    new ResizeObserver(relayout).observe(list);
+    new ResizeObserver(relayout).observe(strip);
+    document.fonts?.ready.then(relayout);
+    document.fonts?.addEventListener?.('loadingdone', relayout);
+
+    render();
+  });
+
+  // Arriving at a paper by its link (e.g. /research#ccps-emnlp25 from Home): briefly light up its row.
+  (() => {
+    const flash = () => {
+      const id = decodeURIComponent(location.hash.slice(1));
+      const row = id && document.getElementById(id);
+      if (!row || !row.classList.contains('paper')) return;
+      // Centre it vertically instead of leaving it at the top (as far as the page can scroll). Done by
+      // hand: scrollIntoView would honour the row's scroll-margin (kept for plain #id jumps).
+      const r = row.getBoundingClientRect();
+      window.scrollTo({ top: r.top + window.scrollY - (window.innerHeight - r.height) / 2, behavior: 'instant' });
+      row.classList.remove('is-flash');
+      void row.offsetWidth; // restart the animation if it's the same paper again
+      row.classList.add('is-flash');
+      setTimeout(() => row.classList.remove('is-flash'), 4700);
+    };
+    window.addEventListener('hashchange', flash);
+    window.addEventListener('load', flash);
+  })();
+</script>
+
+<script>
+  import '../scripts/presentations';
+</script>

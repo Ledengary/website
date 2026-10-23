@@ -1,0 +1,15 @@
+# "Collaborators and Support" at the end of /research, in this order.
+# logo: file in src/assets/logos/ (official marks; sources in docs/inputs/logo-sources.md).
+# height: display height in px, tuned by eye so wide wordmarks and compact marks look equally heavy.
+- name: JPMorganChase
+  logo: jpmorganchase.svg
+  height: 22
+- name: Henry Ford Health
+  logo: henry-ford-health.svg
+  height: 15
+- name: NYU
+  logo: nyu.svg
+  height: 26 # its solid torch block reads heavy; smaller to match the others
+- name: Cedars-Sinai
+  logo: cedars-sinai.svg
+  height: 36

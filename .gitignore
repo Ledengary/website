@@ -1,0 +1,28 @@
+node_modules/
+dist/
+.astro/
+.DS_Store
+
+# Paper PDFs and figure candidates: local only, never committed or published.
+/papers/
+
+# Playwright output
+test-results/
+playwright-report/
+
+# Presentation photo originals (with EXIF/GPS): local only, never committed or published.
+/presentation pictures/
+
+# Presentation photos not yet assigned to an event: local only until placed.
+src/assets/presentations/unsorted/
+
+# Original resume (the published copy is public/resume.pdf).
+/resume/
+
+# Development screenshots.
+docs/screenshots/
+
+# Local tooling
+.env*
+*.log
+lighthouse/

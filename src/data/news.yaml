@@ -1,0 +1,260 @@
+# Latest News on Home, shown one year at a time (year tabs, newest first).
+# Rendered by src/components/NewsCallout.astro. Add one block per item:
+#
+# - date: "2026-09"        # "YYYY-MM", or "YYYY" when the month is unknown (sorts last in its year)
+#   category: publication  # publication | abstract | talk | honor | career | teaching | media
+#                          # (abstract = posters and spotlights; talk = orals, invited talks, tutorials)
+#   title: Short headline
+#   body: >-
+#     One or two sentences (inline Markdown works, but put links in `links`).
+#   links:                 # optional; shown as buttons right after the text
+#     - { label: Paper, url: "https://..." }
+#
+# The emoji for each category is added by the component; don't type it here.
+# Items in the same month show in the order they appear in this file.
+# Every link was checked before it went in; open items are in docs/LINKS_TODO.md.
+
+# --- 2026 ---
+
+- date: "2026-09"
+  category: publication
+  title: "Vision-language models that know when they're guessing"
+  body: >-
+    BICR was accepted to the AACL-IJCNLP 2026 main conference. It flags answers driven by language
+    priors rather than the image, at zero added inference cost.
+  links:
+    - { label: Paper, url: "https://arxiv.org/abs/2605.10893" }
+    - { label: Code, url: "https://github.com/Ledengary/BICR" }
+
+- date: "2026-07"
+  category: abstract
+  title: "Spotlight at ASTRO 2026"
+  body: >-
+    Our work on safely automating oncology chart review with calibrated confidence was selected as a
+    spotlight at the ASTRO 2026 Annual Meeting.
+
+- date: "2026-07"
+  category: teaching
+  title: "Teaching students across MSU when to trust AI"
+  body: >-
+    My work on what an AI system's confidence can and cannot tell us is featured in MSU's new
+    university-wide AI Literacy course, part of the AI-Ready Spartans initiative.
+  links:
+    - { label: Watch, url: "https://www.youtube.com/watch?v=7K12pQKEFw8" }
+    - { label: AI-Ready Spartans, url: "https://ai.msu.edu/ai-ready" }
+
+- date: "2026-05"
+  category: talk
+  title: "Three abstracts at ASTRO 2026, including an oral in the top 11%"
+  body: >-
+    The oral shows how risk-informed training reduces catastrophic errors when language models make
+    oncology decisions. Two more abstracts cover selective automation of chart review and clinical
+    validation of a privacy-preserving model for CTCAE toxicity grading.
+
+- date: "2026-01"
+  category: talk
+  title: "Invited talk at JPMorgan AI Research"
+  body: >-
+    I presented CCPS, our method for calibrating LLM confidence, to the JPMorgan AI Research team.
+
+- date: "2026-01"
+  category: publication
+  title: "How reliable are confidence estimators for reasoning models?"
+  body: >-
+    RMCB was accepted to the EACL 2026 main conference (20.1% acceptance rate). It covers 347K+
+    reasoning traces from six reasoning models across clinical, financial, legal, and mathematical
+    tasks.
+  links:
+    - { label: Paper, url: "https://aclanthology.org/2026.eacl-long.78/" }
+    - { label: Code, url: "https://github.com/Ledengary/RMCB" }
+    - { label: Data, url: "https://huggingface.co/datasets/ledengary/RMCB" }
+
+# --- 2025 ---
+
+- date: "2025-11"
+  category: media
+  title: "CCPS in the news"
+  body: >-
+    Our work on AI reliability was covered by
+    [MSU Today](https://msutoday.msu.edu/news/2025/11/how-reliable-is-that-ai-information), discussed on
+    [WJR 760 AM](https://jr-afternoon.simplecast.com/episodes/how-reliable-is-artificial-intelligence-SAOrwQr6)
+    with Ryan Ermanni, and featured in a TV interview on
+    [WILX News 10](https://www.wilx.com/2025/11/19/is-ai-reliable-msu-researcher-who-created-tool-says-no/).
+
+- date: "2025-11"
+  category: career
+  title: "Joining Microsoft as an Applied Sciences Intern"
+  body: >-
+    I accepted an offer to join Microsoft as an Applied Sciences Intern in Fall 2026.
+
+- date: "2025-10"
+  category: honor
+  title: "Honorable Mention at the MSU and Henry Ford Health Precision Health Symposium"
+  body: >-
+    Our abstract on calibrating LLM confidence for precision health received an Honorable Mention.
+
+- date: "2025-09"
+  category: honor
+  title: "NextGen Scholar at IEEE BHI 2025"
+  body: >-
+    Selected as an NSF-EMBS-Google Sponsored Young Professional NextGen Scholar for early-career work
+    in biomedical AI and health informatics.
+
+- date: "2025-09"
+  category: honor
+  title: "Outstanding Paper Award nomination at EMNLP 2025"
+  body: >-
+    CCPS was nominated for the Outstanding Paper Award, placing in the top 0.4% of 8,174 submissions.
+  links:
+    - { label: Paper, url: "https://aclanthology.org/2025.emnlp-main.530/" }
+
+# Accepted 2025-08-20.
+- date: "2025-08"
+  category: publication
+  title: "Calibrating LLM confidence without modifying model weights"
+  body: >-
+    CCPS was accepted to the EMNLP 2025 main conference. It cuts calibration error by 55% without
+    modifying model weights.
+  links:
+    - { label: Paper, url: "https://aclanthology.org/2025.emnlp-main.530/" }
+    - { label: Code, url: "https://github.com/ledengary/CCPS" }
+    - { label: Data, url: "https://huggingface.co/datasets/ledengary/CCPS" }
+
+- date: "2025-08"
+  category: publication
+  title: "Hybrid student-teacher LLMs for toxicity extraction"
+  body: >-
+    Accepted at IEEE BHI 2025. A large teacher model guides compact LLMs to extract cancer toxicity
+    symptoms from clinical notes, at up to 48x lower cost than GPT-4o.
+
+- date: "2025-07"
+  category: honor
+  title: "Elected a Full Member of Sigma Xi"
+  body: >-
+    Recognized by Sigma Xi, The Scientific Research Honor Society, where full membership is by
+    invitation only.
+
+- date: "2025-06"
+  category: publication
+  title: "A practical guide to LLMs for radiation oncology"
+  body: >-
+    Accepted in BJR|Artificial Intelligence. It covers transformer architectures and large language
+    models, with a checklist for evaluating NLP models before clinical use.
+  links:
+    - { label: Paper, url: "https://doi.org/10.1093/bjrai/ubaf010" }
+
+- date: "2025-05"
+  category: abstract
+  title: "Privacy-preserving CTCAE grading at ASTRO 2025"
+  body: >-
+    Poster on grading post-radiotherapy toxicities with an instruction-fine-tuned LLM that keeps
+    patient data private.
+  links:
+    - { label: Abstract, url: "https://doi.org/10.1016/j.ijrobp.2025.06.3177" }
+
+- date: "2025-04"
+  category: abstract
+  title: "Parameter-efficient toxicity extraction at AAPM 2025"
+  body: >-
+    Poster discussion on privacy-preserving, parameter-efficient fine-tuning for extracting
+    post-radiotherapy toxicities.
+
+# --- 2024 ---
+
+- date: "2024-10"
+  category: publication
+  title: "Does biomedical research predict small-business funding?"
+  body: >-
+    Published in IEEE Transactions on Computational Social Systems with JPMorgan AI Research. We link
+    10,873 biomedical topics to SBIR funding and measure how scientific advances lead industry
+    investment.
+  links:
+    - { label: Paper, url: "https://doi.org/10.1109/TCSS.2024.3466010" }
+
+- date: "2024-06"
+  category: abstract
+  title: "A local student-teacher LLM for toxicity extraction at ASTRO 2024"
+  body: >-
+    Poster on a privacy-preserving student-teacher LLM for extracting toxicities from radiation
+    oncology notes.
+  links:
+    - { label: Abstract, url: "https://doi.org/10.1016/j.ijrobp.2024.07.1392" }
+
+- date: "2024-06"
+  category: publication
+  title: "MambaNet in SN Computer Science"
+  body: >-
+    A hybrid neural network for predicting NBA playoff outcomes.
+  links:
+    - { label: Paper, url: "https://doi.org/10.1007/s42979-024-02977-0" }
+
+- date: "2024-03"
+  category: talk
+  title: "Oral presentation at ICCR 2024"
+  body: >-
+    Iterative prompt refinement with teacher-student LLMs for extracting radiation oncology symptoms,
+    without additional training.
+  links:
+    - { label: Preprint, url: "https://arxiv.org/abs/2402.04075" }
+
+# --- 2023 ---
+
+- date: "2023-10"
+  category: talk
+  title: "Tutorial on LLMs for finance at ACM ICAIF'23"
+  body: >-
+    I co-presented a one-hour tutorial on Large Language Models for NLP in Finance: Applications and
+    Challenges.
+  links:
+    - { label: Slides, url: "https://limanling.github.io/uploads/slides/LargeLanguageModelsforNLPinFinance.pdf" }
+
+- date: "2023-07"
+  category: publication
+  title: "PGST in Natural Language Engineering"
+  body: >-
+    A gender-based text style transfer method for Persian, extended and evaluated on English.
+  links:
+    - { label: Paper, url: "https://doi.org/10.1017/S1351324923000426" }
+
+- date: "2023-07"
+  category: talk
+  title: "Rapid-fire talk at IEEE BHI 2023"
+  body: >-
+    Identifying fetal biological sex from phonocardiogram signals, accepted as a five-minute
+    rapid-fire talk and poster.
+  links:
+    - { label: Watch the talk, url: "https://www.youtube.com/watch?v=xQLEryZHWns" }
+
+- date: "2023-04"
+  category: publication
+  title: "Prose2Poem in ACM TALLIP"
+  body: >-
+    The first model to translate Persian prose into poetry, released with a new prose-poem dataset.
+  links:
+    - { label: Paper, url: "https://doi.org/10.1145/3592791" }
+
+- date: "2023-01"
+  category: honor
+  title: "Top Cancer Control Abstract Award at the Henry Ford + MSU Cancer Research Symposium"
+  body: >-
+    Our abstract won the Top Cancer Control Abstract Award, and I was invited to present the work.
+  links:
+    - { label: Watch the talk, url: "https://www.youtube.com/watch?v=8ma7UzopwKQ&t=205s" }
+
+- date: "2023"
+  category: abstract
+  title: "Toxicity symptom extraction at AAPM 2023"
+  body: >-
+    Poster on training a transformer-based NLP pipeline to extract toxicity symptoms in prostate
+    cancer patients after radiotherapy.
+
+# --- 2021 ---
+
+- date: "2021-04"
+  category: publication
+  title: "COPER at ICWR 2021"
+  body: >-
+    A semantic search engine for Persian COVID-19 articles, with PerSICK, the first Persian semantic
+    similarity dataset.
+  links:
+    - { label: Paper, url: "https://doi.org/10.1109/ICWR51868.2021.9443151" }

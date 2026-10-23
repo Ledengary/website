@@ -1,0 +1,49 @@
+# About › Teaching. Org entries; links may carry a `group` (e.g. one talk's slides and video).
+- org: Michigan State University
+  role: AI Literacy course
+  dates: "2026"
+  detail: My lesson on validating AI outputs is featured in MSU's university-wide AI Literacy course.
+  logo: msu.png
+  links:
+    - { label: Watch, url: "https://www.youtube.com/watch?v=7K12pQKEFw8" }
+    - { label: AI-Ready Spartans, url: "https://ai.msu.edu/ai-ready" }
+- org: Rasht School of AI
+  role: Founder
+  dates: Dec 2020 – Aug 2022
+  detail: "A free AI education initiative for Persian-speaking learners: meetups, talks, and open learning materials."
+  logo: rasht-school-of-ai.png
+  courses: # talks, listed like the TA course lines
+    - name: Introduction to Artificial Intelligence
+      terms: Apr 2021
+      links:
+        - { label: Slides, url: "https://github.com/rasht-school-of-ai/Meetup-Materials/tree/master/Sixth%20Meetup" }
+        - { label: Video, url: "https://drive.google.com/file/d/1PPUwMZ70XHJeKVokjnIJidvp5FFOTl4z/view?usp=sharing" }
+    - name: Introduction to Machine Learning
+      terms: Jun 2021
+      links:
+        - { label: Slides, url: "https://github.com/rasht-school-of-ai/Meetup-Materials/tree/master/Seventh%20Meetup" }
+        - { label: Video, url: "https://drive.google.com/file/d/1A3vC3ZmVztuTIeoP8OLDaftNKSzTgmxE/view?usp=sharing" }
+- org: University of Guilan
+  role: Teaching Assistant, ==8 courses==
+  dates: 2018 – 2022
+  logo: guilan.png
+  courses:
+    - { name: Deep Learning, role: Head TA, terms: Spring 2022 }
+    - name: Natural Language Processing
+      role: Head TA
+      terms: Spring 2021
+      size: 40 students
+      links: [{ label: Materials, url: "https://drive.google.com/drive/folders/1HGH_Xmw-bI9DgxO-OUUgN9uCuJrQsKbu" }]
+    - name: Computational Intelligence
+      role: Head TA
+      terms: Spring 2020, Fall 2020, Spring 2021
+      size: 50+ students
+      materials:
+        - { label: Spring 2020, url: "https://github.com/alitourani/ci-class-9802" }
+        - { label: Fall 2020, url: "https://github.com/alitourani/computational-intelligence-class-9901" }
+        - { label: Spring 2021, url: "https://github.com/alitourani/computational-intelligence-class-9902" }
+    - { name: Data Structures and Algorithm Design, role: Head TA, terms: Fall 2019, size: 50+ students }
+    - { name: Advanced Programming, role: Head TA, terms: Spring 2019 and Fall 2019, size: 70+ students }
+    - { name: Language Theories and Automata, role: TA, terms: Spring 2020, size: 70+ students }
+    - { name: Basics of Computer and Programming, role: TA, terms: Fall 2018, size: 70+ students }
+    - { name: Specialized English for Engineering Students, role: TA, terms: Spring 2018, size: 50+ students }

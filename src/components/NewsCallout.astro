@@ -1,0 +1,120 @@
+---
+// News on Home: year tabs above a compact date | text list, one year shown at a time.
+// Content: src/data/news.yaml. Without JS the tabs stay hidden and every year shows,
+// stacked under its own heading, so nothing is ever unreachable.
+import { getCollection } from 'astro:content';
+import { inline, shortMonthYear } from '../lib/text';
+import Links from './about/Links.astro';
+
+type Category = 'publication' | 'abstract' | 'talk' | 'honor' | 'career' | 'teaching' | 'media';
+const EMOJI: Record<Category, [string, string]> = {
+  publication: ['📘', 'Publication'],
+  abstract: ['📄', 'Abstract'],
+  talk: ['🎤', 'Talk'],
+  honor: ['🏆', 'Honor'],
+  career: ['💼', 'Career'],
+  teaching: ['🎓', 'Teaching'],
+  media: ['📰', 'Media'],
+};
+
+// Newest first. The sort is stable, so items in the same month keep their file order,
+// and a year-only date ("2023") sorts after every "2023-MM" in that year.
+const items = (await getCollection('news'))
+  .map((e) => e.data)
+  .sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
+
+// Title and description share one paragraph, so the title gets a period unless it already
+// ends in punctuation ("…funding?" stays as is).
+const endWithStop = (title: string) => (/[.?!]$/.test(title) ? title : `${title}.`);
+
+const years = [...new Set(items.map((n) => n.date.slice(0, 4)))];
+const byYear = years.map((year) => ({ year, items: items.filter((n) => n.date.startsWith(year)) }));
+---
+
+{
+  items.length > 0 ? (
+    <div class="news-tabs" data-news-tabs>
+      <div class="news-years" role="tablist" aria-label="News by year" hidden>
+        {years.map((year, i) => (
+          <button
+            type="button"
+            class="news-years__tab"
+            role="tab"
+            id={`news-tab-${year}`}
+            aria-controls={`news-${year}`}
+            aria-selected={i === 0 ? 'true' : 'false'}
+            tabindex={i === 0 ? 0 : -1}
+          >
+            {year}
+          </button>
+        ))}
+      </div>
+
+      <div class="news-feed">
+        {byYear.map(({ year, items }) => (
+          <div class="news__year" id={`news-${year}`}>
+            <h3 class="news__year-title">{year}</h3>
+            <ul class="news-feed__list">
+              {items.map((n) => (
+                <li class="news-item">
+                  <time class="news-item__date" datetime={n.date}>{shortMonthYear(n.date)}</time>
+                  <p class="news-item__text">
+                    <span role="img" aria-label={EMOJI[n.category][1]}>{EMOJI[n.category][0]}</span>{' '}
+                    <strong class="news-item__title">{endWithStop(n.title)}</strong>{' '}
+                    <Fragment set:html={inline(n.body)} /><Links links={n.links} />
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  ) : (
+    <div class="news news--pending">
+      <span class="kicker">Pending</span>
+      <span class="entry__title">News items pending</span>
+      <p class="entry__desc">
+        No news entries yet. They will appear here once added to <code>src/data/news.yaml</code>.
+      </p>
+    </div>
+  )
+}
+
+{/* Inline and right after the markup, so the tabs switch on before first paint (no flash of every year). */}
+<script is:inline>
+  document.querySelectorAll('[data-news-tabs]').forEach((root) => {
+    const tabs = [...root.querySelectorAll('[role="tab"]')];
+    const panels = tabs.map((tab) => document.getElementById(tab.getAttribute('aria-controls')));
+
+    panels.forEach((panel, i) => {
+      panel.setAttribute('role', 'tabpanel');
+      panel.setAttribute('aria-labelledby', tabs[i].id);
+      panel.tabIndex = 0;
+    });
+
+    const select = (i, focus) => {
+      tabs.forEach((tab, j) => {
+        tab.setAttribute('aria-selected', String(i === j));
+        tab.tabIndex = i === j ? 0 : -1;
+        panels[j].hidden = i !== j;
+      });
+      if (focus) tabs[i].focus();
+    };
+
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => select(i, false));
+      tab.addEventListener('keydown', (e) => {
+        const last = tabs.length - 1;
+        const next = { ArrowRight: i === last ? 0 : i + 1, ArrowLeft: i === 0 ? last : i - 1, Home: 0, End: last }[e.key];
+        if (next === undefined) return;
+        e.preventDefault();
+        select(next, true);
+      });
+    });
+
+    select(0, false);
+    root.querySelector('[role="tablist"]').hidden = false;
+    root.classList.add('is-tabbed');
+  });
+</script>

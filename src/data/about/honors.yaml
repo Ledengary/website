@@ -1,0 +1,40 @@
+# About › Honors, ordered by selectivity (not date).
+- title: EMNLP 2025 Outstanding Paper Award nominee
+  year: "2025"
+  logo: acl.png
+  text: Our paper on calibrating LLM confidence placed in the ==top 0.4%== of ==8,174== submissions.
+  links:
+    - { label: Paper, url: "/research#ccps-emnlp25" }
+    - { label: MSU Today, url: "https://msutoday.msu.edu/news/2025/11/how-reliable-is-that-ai-information" }
+- title: ASTRO 2026 oral presentation
+  year: "2026"
+  logo: astro.png
+  text: Selected for an oral presentation, in the ==top 11%== of submitted abstracts.
+  links:
+    - { label: Abstract, url: "/research#safe-clinical-astro26" }
+- title: NSF-EMBS-Google Young Professional NextGen Scholar
+  year: "2025"
+  logo: google.png
+  text: Selected at IEEE BHI 2025 from a limited group of early-career researchers in biomedical AI and health informatics.
+- title: Sigma Xi, Full Member
+  year: "2025"
+  logo: sigma-xi.png
+  text: Elected to The Scientific Research Honor Society, where full membership is by invitation only.
+- title: Honorable Mention, MSU and Henry Ford Health Precision Health Symposium
+  year: "2025"
+  logo: henry-ford-health-vertical.png
+  text: For our abstract on calibrating LLM confidence in precision health.
+- title: Top Cancer Control Abstract Award, Henry Ford + MSU Cancer Research Symposium
+  year: "2023"
+  logo: henry-ford-health-vertical.png
+  text: Awarded with an invited talk.
+  links:
+    - { label: Watch the talk, url: "https://www.youtube.com/watch?v=8ma7UzopwKQ&t=205s" }
+- title: Full graduate scholarship, University of Guilan
+  year: "2020"
+  logo: guilan.png
+  text: Awarded as an exceptional talent, ranked in the ==top 10%== of 68 graduates in Computer Engineering.
+- title: Full undergraduate scholarship, University of Guilan
+  year: "2017"
+  logo: guilan.png
+  text: Ranked in the ==top 7%== of more than ==148,000== participants in the national university entrance exam.

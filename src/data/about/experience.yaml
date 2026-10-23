@@ -1,0 +1,17 @@
+# About › Experience. logo: file in src/assets/logos/ (omit when there's no official file).
+# links: optional [{ label, url }]. Every link was checked before it went in (see docs/LINKS_TODO.md).
+- org: Microsoft
+  role: Applied Sciences Intern
+  dates: May 2026
+  logo: microsoft.png
+- org: Michigan State University
+  role: AI Research Assistant, Human Augmentation and Artificial Intelligence Lab (HAAIL)
+  dates: Aug 2022 – Present
+  detail: Advised by [Mohammad M. Ghassemi](https://ghassemi.xyz/). Research funded by Henry Ford Health and JPMorgan AI Research.
+  logo: msu.png
+- org: University of Guilan
+  role: NLP Research Assistant, Guilan NLP Group
+  dates: Sep 2018 – Jul 2022
+  detail: "With [Seyed Abolghasem Mirroshandel](https://www.dropbox.com/scl/fi/108ovr9b8d0vfl28cuauu/Seyed-Abolghasem-Mirroshandel-CV.pdf?rlkey=cttj32t5oq63vwzqj3sw1di3s&st=svwjdnnm&dl=0). Low-resource NLP: poetry translation, text style transfer, and semantic search."
+  logo: guilan.png
+  # The Guilan NLP Group link is in docs/LINKS_TODO.md.

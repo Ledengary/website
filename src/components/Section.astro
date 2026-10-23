@@ -1,0 +1,19 @@
+---
+// A full-width band with the 820px column and a section title topped by the accent bar.
+interface Props {
+  title: string;
+  id?: string;
+  alt?: boolean; // grey band
+  rule?: boolean; // title followed by a hairline instead of the accent bar above it
+}
+
+const { title, id, alt = false, rule = false } = Astro.props;
+const headingId = id ? `${id}-title` : undefined;
+---
+
+<section class:list={['section', { 'section--alt': alt }]} id={id} aria-labelledby={headingId}>
+  <div class="section__inner">
+    <h2 class:list={['section__title', { 'section__title--rule': rule }]} id={headingId}>{title}</h2>
+    <slot />
+  </div>
+</section>

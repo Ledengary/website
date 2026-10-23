@@ -1,0 +1,21 @@
+# About › Education. thesis.title "{profile}" means the thesis title in src/data/profile.yaml.
+- org: Michigan State University
+  role: Ph.D., Computer Science
+  dates: 2022 – Present (expected Fall 2027)
+  logo: msu.png
+  thesis:
+    title: "{profile}"
+    sentence: Methods that let language, reasoning, and vision-language models estimate when their own answers are likely wrong.
+- org: Michigan State University
+  role: M.Sc., Computer Science
+  dates: Aug 2022 – Apr 2024
+  logo: msu.png
+- org: University of Guilan
+  role: B.Sc., Computer Engineering
+  dates: 2017 – 2021
+  logo: guilan.png
+  thesis:
+    title: "Prose2Poem: The Blessing of Transformers in Translating Prose to Persian Poetry"
+    sentence: A transformer model and dataset for translating Persian prose into poetry.
+  links:
+    - { label: Paper, url: "https://doi.org/10.1145/3592791" } # same as the Paper button on /research

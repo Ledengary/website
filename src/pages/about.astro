@@ -1,0 +1,78 @@
+---
+// About: education, experience, honors, in the media, service, teaching, and beyond research.
+// Content: src/data/about/*.yaml. Sections alternate white and grey full-width bands.
+import { getCollection, getEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Section from '../components/Section.astro';
+import OrgEntry from '../components/about/OrgEntry.astro';
+import AboutRow from '../components/about/AboutRow.astro';
+import MediaRow from '../components/about/MediaRow.astro';
+
+const byOrder = <T extends { data: { order: number } }>(xs: T[]) => xs.sort((a, b) => a.data.order - b.data.order).map((x) => x.data);
+const profile = (await getEntry('profile', 'profile'))!.data;
+const experience = byOrder(await getCollection('experience'));
+const education = byOrder(await getCollection('education'));
+const honors = byOrder(await getCollection('honors'));
+const service = byOrder(await getCollection('service'));
+const teaching = byOrder(await getCollection('teaching'));
+const beyond = byOrder(await getCollection('beyond'));
+const media = (await getCollection('media')).map((m) => m.data).sort((a, b) => a.date.localeCompare(b.date)); // oldest first
+const wilx = media.find((m) => m.outlet_short === 'WILX');
+
+const JUMPS = [
+  ['education', 'Education'],
+  ['experience', 'Experience'],
+  ['honors', 'Honors'],
+  ['media', 'In the Media'],
+  ['service', 'Service'],
+  ['teaching', 'Teaching'],
+  ['beyond', 'Beyond Research'],
+] as const;
+---
+
+<Base title="About" current="about" description="About Reza Khan Mohammadi: education, experience, honors, media coverage, service, teaching, and life beyond research.">
+  <section class="section section--page about-top">
+    <div class="section__inner">
+      <h1 class="section__title section__title--rule">About</h1>
+      <nav class="jumps" aria-label="On this page">
+        <ul class="dots">
+          {JUMPS.map(([id, label]) => <li><a href={`#${id}`}>{label}</a></li>)}
+        </ul>
+      </nav>
+    </div>
+  </section>
+
+  <Section title="Education" id="education" alt rule>
+    <ul class="orgs">{education.map((e) => <OrgEntry entry={e} thesisTitle={profile.thesis} />)}</ul>
+  </Section>
+
+  <Section title="Experience" id="experience" rule>
+    <ul class="orgs">{experience.map((e) => <OrgEntry entry={e} />)}</ul>
+  </Section>
+
+  <Section title="Honors" id="honors" alt rule>
+    <ul class="arows">{honors.map((r) => <AboutRow row={r} />)}</ul>
+  </Section>
+
+  <Section title="In the Media" id="media" rule>
+    <ul class="arows">{media.map((m) => <MediaRow item={m} />)}</ul>
+    <figure class="pullquote">
+      <blockquote>
+        <p>At the end of the day, it comes down to the task, but if I want to give one answer, I would say no.</p>
+      </blockquote>
+      <figcaption>{wilx ? <a href={wilx.url}>On WILX News 10, asked whether AI is reliable</a> : 'On WILX News 10, asked whether AI is reliable'}</figcaption>
+    </figure>
+  </Section>
+
+  <Section title="Service" id="service" alt rule>
+    <ul class="arows">{service.map((r) => <AboutRow row={r} />)}</ul>
+  </Section>
+
+  <Section title="Teaching" id="teaching" rule>
+    <ul class="orgs">{teaching.map((e) => <OrgEntry entry={e} />)}</ul>
+  </Section>
+
+  <Section title="Beyond Research" id="beyond" alt rule>
+    <ul class="arows">{beyond.map((r) => <AboutRow row={r} />)}</ul>
+  </Section>
+</Base>

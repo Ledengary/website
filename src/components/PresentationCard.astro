@@ -1,0 +1,91 @@
+---
+// One card in /research › Presentations: 16:9 media (a click-to-load YouTube facade, or the lead photo),
+// then EVENT · CITY, one line per presentation (title, type pill, date) and the link buttons.
+// Photos open in the PhotoSwipe gallery (script in research.astro), reading the JSON at the card's end.
+// Without JS the lead photo links to its full-size image and the facade to youtube.com.
+import type { CollectionEntry } from 'astro:content';
+import type { ImageMetadata } from 'astro';
+import { Picture, getImage } from 'astro:assets';
+import Icon from './Icon.astro';
+import { shortMonthYear } from '../lib/text';
+
+interface Props {
+  item: CollectionEntry<'presentations'>['data'];
+}
+const { item: p } = Astro.props;
+
+const TYPE = {
+  talk: 'Talk', oral: 'Oral', invited: 'Invited talk', 'rapid-fire': 'Rapid-fire', spotlight: 'Spotlight',
+  poster: 'Poster', tutorial: 'Tutorial', 'guest-lecture': 'Guest lecture',
+} as const;
+
+const files = import.meta.glob<ImageMetadata>('/src/assets/presentations/*/*.{jpg,jpeg,png,webp}', { eager: true, import: 'default' });
+const photos = await Promise.all(
+  p.photos.map(async (ph) => {
+    const src = files[`/src/assets/presentations/${p.id}/${ph.file}`];
+    if (!src) throw new Error(`presentations.yaml: missing photo src/assets/presentations/${p.id}/${ph.file}`);
+    // Full-size slide for the gallery (and the no-JS link): WebP, at most 2400px wide.
+    const full = await getImage({ src, format: 'webp', width: Math.min(src.width, 2400), quality: 82 });
+    return { ...ph, src, full: { src: full.src, w: Number(full.attributes.width), h: Number(full.attributes.height) } };
+  }),
+);
+const lead = photos[0];
+const yt = p.youtube;
+const watchUrl = yt && `https://www.youtube.com/watch?v=${yt.id}${yt.start ? `&t=${yt.start}s` : ''}`;
+const lines = [{ title: p.title, type: p.type, related_paper: p.related_paper }, ...p.also];
+const multi = lines.length > 1;
+const date = shortMonthYear(p.date.slice(0, 7));
+const kicker = p.event;
+const gallery = photos.map((ph) => ({ src: ph.full.src, width: ph.full.w, height: ph.full.h, alt: ph.alt, caption: ph.caption }));
+const sizes = '(min-width: 1100px) 500px, (min-width: 768px) 46vw, 100vw';
+---
+
+<li class="pres-card" id={`pres-${p.id}`} data-pres>
+  <div class="pres-card__media">
+    {yt ? (
+      <a class="yt" href={watchUrl} data-yt-id={yt.id} data-yt-start={yt.start} aria-label={`Play video: ${p.title}`}>
+        <img src={`https://i.ytimg.com/vi/${yt.id}/hqdefault.jpg`} alt="" width="480" height="360" loading="lazy" decoding="async" />
+        <span class="yt__play" aria-hidden="true"><svg viewBox="0 0 24 24" width="28" height="28"><path d="M8 5.5v13l11-6.5z" fill="currentColor" /></svg></span>
+      </a>
+    ) : (
+      lead && (
+        <a class="pres-card__lead" href={lead.full.src} data-gallery-open="0">
+          <Picture src={lead.src} alt={lead.alt} formats={['avif', 'webp']} widths={[480, 760, 1040]} sizes={sizes} loading="lazy" decoding="async" style={lead.position && `object-position: ${lead.position}`} />
+          {photos.length > 1 && <span class="pres-card__more">+{photos.length - 1}<span class="visually-hidden"> more {photos.length > 2 ? 'photos' : 'photo'}</span></span>}
+        </a>
+      )
+    )}
+  </div>
+  <div class="pres-card__body">
+    {yt && photos.length > 0 && (
+      <a class="link-btn link-btn--sm pres-card__photos" href={lead.full.src} data-gallery-open="0"><Icon name="image" />Photos ({photos.length})</a>
+    )}
+    <p class="kicker pres-card__kicker">{kicker}</p>
+    {lines.map((l) => (
+      <div class="pres-line">
+        <h3 class="pres-line__title">{l.title}</h3>
+        <p class="pres-line__meta">
+          <span class="pres-pill">{TYPE[l.type]}</span>
+          <span class="pres-line__date">{date}</span>
+          {multi && l.related_paper && (
+            <a class="link-btn link-btn--sm" href={`/research#${l.related_paper}`}><Icon name="paper" />Paper</a>
+          )}
+        </p>
+      </div>
+    ))}
+    {/* Links on the left, the city at the bottom right. */}
+    <div class="pres-card__foot">
+      <p class="pres-card__links">
+        {yt && <a class="link-btn link-btn--sm" href={watchUrl}><Icon name="youtube" />Video</a>}
+        {p.links.slides && <a class="link-btn link-btn--sm" href={p.links.slides}><Icon name="slides" />Slides</a>}
+        {!multi && p.related_paper ? (
+          <a class="link-btn link-btn--sm" href={`/research#${p.related_paper}`}><Icon name="paper" />Paper</a>
+        ) : (
+          p.links.paper && <a class="link-btn link-btn--sm" href={p.links.paper}><Icon name="paper" />Paper</a>
+        )}
+      </p>
+      {p.location && <span class="pres-card__loc"><Icon name="location" />{p.location}</span>}
+    </div>
+  </div>
+  {gallery.length > 0 && <script type="application/json" data-gallery set:html={JSON.stringify(gallery).replace(/</g, '\\u003c')} />}
+</li>

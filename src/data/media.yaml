@@ -1,0 +1,40 @@
+# Media coverage. One source for About › In the Media, the CCPS News entry's links and the
+# "In the media" line under a paper on /research (matched by related_paper = a publication id).
+# logo: file in src/assets/logos/ (official marks; sources in docs/inputs/logo-sources.md).
+# Every URL was opened and checked before it went in. Use the episode page for radio, never a raw mp3.
+
+- id: msutoday-2025-11-12
+  date: "2025-11-12"
+  outlet: MSU Today
+  outlet_short: MSU Today
+  format: article
+  title: How reliable is AI information?
+  byline: Emilie Lorditch
+  url: https://msutoday.msu.edu/news/2025/11/how-reliable-is-that-ai-information
+  cta: Read
+  logo: msu.png
+  related_paper: ccps-emnlp25
+
+- id: wjr-2025-11-13
+  date: "2025-11-13"
+  outlet: WJR 760 AM, Detroit
+  outlet_short: WJR
+  format: radio
+  title: How Reliable Is Artificial Intelligence?
+  byline: JR Afternoon with Ryan Ermanni
+  url: https://jr-afternoon.simplecast.com/episodes/how-reliable-is-artificial-intelligence-SAOrwQr6
+  cta: Listen
+  logo: wjr.png
+  related_paper: ccps-emnlp25
+
+- id: wilx-2025-11-19
+  date: "2025-11-19"
+  outlet: WILX News 10, Lansing
+  outlet_short: WILX
+  format: tv
+  title: "Is AI reliable? MSU researcher who created tool says 'no'"
+  byline: Bobby Cushing
+  url: https://www.wilx.com/2025/11/19/is-ai-reliable-msu-researcher-who-created-tool-says-no/
+  cta: Watch
+  logo: wilx.png
+  related_paper: ccps-emnlp25

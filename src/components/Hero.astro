@@ -1,0 +1,57 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { getEntry } from 'astro:content';
+import { inline, paragraphs } from '../lib/text';
+import Icon from './Icon.astro';
+
+const profile = (await getEntry('profile', 'profile'))!.data;
+
+// The portrait appears automatically once src/assets/images/portrait.jpg exists.
+const found = import.meta.glob<ImageMetadata>('/src/assets/images/portrait.{jpg,jpeg,png,webp}', {
+  eager: true,
+  import: 'default',
+});
+const portrait = Object.values(found)[0];
+---
+
+<section class="hero" aria-label="Introduction">
+  <div class="hero__inner">
+    {
+      portrait ? (
+        <div class="hero__photo">
+          <Image
+            class="hero__photo-img"
+            src={portrait}
+            alt={`Portrait of ${profile.name}`}
+            width={600}
+            height={600}
+            fit="cover"
+            loading="eager"
+          />
+        </div>
+      ) : (
+        <div class="hero__photo hero__photo--pending" role="img" aria-label="Portrait pending">
+          <strong>Portrait pending</strong>
+          <code>src/assets/images/<br />portrait.jpg</code>
+        </div>
+      )
+    }
+    <div class="hero__body">
+      <h1 class="hero__name">{profile.name}</h1>
+      <ul class="hero__roles">
+        {profile.roles.map((r) => (
+          <li><strong>{r.title}</strong>, <Fragment set:html={inline(r.rest)} /></li>
+        ))}
+      </ul>
+      <ul class="hero__links">
+        {profile.links.map((l) => (
+          <li><a class="link-btn" href={l.url}><Icon name={l.icon} />{l.label}</a></li>
+        ))}
+      </ul>
+      <div class="hero__intro">
+        {paragraphs(profile.intro).map((p) => <p set:html={p} />)}
+      </div>
+    </div>
+  </div>
+</section>

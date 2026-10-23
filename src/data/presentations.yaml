@@ -1,0 +1,110 @@
+# Presentations on /research (after the papers), rendered by src/components/PresentationCard.astro.
+# Only presentations with photos or a video are listed; newest first by date.
+#
+# - id: astro-2026                    # photos live in src/assets/presentations/<id>/
+#   date: "2026-09"                   # "YYYY-MM-DD", "YYYY-MM", or "YYYY" when the month is unknown;
+#                                     # shown as month and year. Use full dates to order two in one month.
+#   event: ASTRO 2026 Annual Meeting
+#   location: Boston                  # city; optional
+#   title: ...                        # the presentation's title
+#   type: oral                        # talk | oral | invited | rapid-fire | spotlight | poster | tutorial | guest-lecture
+#   related_paper: safe-clinical-astro26   # optional publication id; the Paper button anchors to /research#<id>
+#   also:                             # optional: more presentations at the same event, one line each on the card
+#     - { title: ..., type: spotlight, related_paper: ... }
+#   youtube: { id: Dq-Y-ybQOIs, start: 205 }   # optional; start in seconds
+#   photos:                           # optional; the first is the lead photo
+#     - { file: 01.jpg, caption: ..., alt: ..., position: "50% 30%" }   # position: optional crop focus in the 16:9 card
+#   links: { slides: "https://...", paper: "https://..." }   # optional extra links
+#
+# Photo originals are local only (gitignored); see docs/inputs/presentations-review.md.
+
+- id: astro-2026
+  date: "2026-09"
+  event: ASTRO 2026 Annual Meeting
+  location: Boston
+  title: "Teaching Language Models Safe Clinical Decision-Making"
+  type: oral
+  related_paper: safe-clinical-astro26
+  also:
+    - title: "Risk-Controlled Selective Automation of Oncology Chart Review"
+      type: spotlight
+      related_paper: chart-review-astro26
+  photos:
+    - file: 01.jpg
+      caption: "Presenting our oral session at ASTRO 2026, Boston."
+      alt: "Reza at a podium beside a large screen showing the title slide “Teaching Language Models Safe Clinical Decision-Making”, with the audience seen from behind."
+    - file: 02.jpg
+      caption: "With fellow presenters at our digital poster station, ASTRO 2026, Boston."
+      alt: "Four people with conference badges standing beside a digital poster kiosk numbered 30 that lists the session's posters."
+
+- id: msu-ai-literacy
+  date: "2026"
+  event: MSU AI Literacy course
+  title: "Validating AI Outputs: What a Model's Confidence Can and Cannot Tell Us"
+  type: guest-lecture
+  youtube: { id: 7K12pQKEFw8 }
+
+- id: precision-health-2025
+  date: "2025-10-31"
+  event: MSU and Henry Ford Health Precision Health Symposium
+  location: East Lansing
+  title: "Enhancing LLM Reliability in Precision Health: Calibrating Confidence by Probing Perturbed Representation Stability"
+  type: poster
+  related_paper: ccps-emnlp25
+  photos:
+    - file: 01.jpg
+      position: "50% 37%"   # keep the head in the 16:9 crop
+      caption: "Presenting our CCPS poster at the MSU and Henry Ford Health Precision Health Symposium."
+      alt: "Reza standing beside an easel poster titled “Enhancing LLM Reliability in Precision Health”."
+    - file: 02.jpg
+      caption: "Receiving an Honorable Mention at the MSU and Henry Ford Health Precision Health Symposium."
+      alt: "Reza holding up an Honorable Mention certificate next to the presenter, with another person at a podium in the background."
+
+- id: bhi-2025
+  date: "2025-10-27"
+  event: IEEE BHI 2025
+  location: Atlanta
+  title: "Hybrid Student-Teacher LLM Refinement for Cancer Toxicity Symptom Extraction"
+  type: talk
+  related_paper: hybrid-st-bhi25
+  also:
+    - title: "NextGen Scholar talk"
+      type: talk
+  youtube: { id: Dq-Y-ybQOIs }
+  photos:
+    - file: 01.jpg
+      caption: "Presenting hybrid student-teacher LLM refinement at IEEE BHI 2025, Atlanta."
+      alt: "Reza in a suit gesturing toward a projected slide about the dataset, models and a performance-cost ratio."
+    - file: 02.jpg
+      caption: "Giving my NextGen Scholar talk at IEEE BHI 2025, Atlanta."
+      alt: "Reza speaking into a microphone beside a screen showing his NextGen Scholar slide with NSF, IEEE EMBS and Google logos, and a BHI 2025 welcome banner at right."
+
+- id: astro-2024
+  date: "2024-09"
+  event: ASTRO 2024 Annual Meeting
+  location: Washington DC
+  title: "A Novel Localized Student-Teacher LLM for Enhanced Toxicity Extraction in Radiation Oncology"
+  type: poster
+  related_paper: localized-st-astro24
+  photos:
+    - file: 01.jpg
+      caption: "With our digital poster at ASTRO 2024, Washington DC."
+      alt: "Reza with arms crossed next to a digital poster screen titled “A Novel Localized Student-Teacher LLM for Enhanced Toxicity Extraction in Radiation Oncology”."
+
+- id: bhi-2023
+  date: "2023"
+  event: IEEE BHI 2023
+  location: Pittsburgh
+  title: "Fetal Biological Sex Identification using Machine and Deep Learning Algorithms on Phonocardiogram Signals"
+  type: rapid-fire
+  related_paper: fetal-sex
+  youtube: { id: xQLEryZHWns }
+
+# Video title: "Iterative Prompt Refinement for Radiation Oncology Symptom Extraction".
+- id: cancer-symposium-2023
+  date: "2023-01"
+  event: Henry Ford + MSU Cancer Research Symposium
+  location: East Lansing
+  title: "Iterative Prompt Refinement for Radiation Oncology Symptom Extraction"
+  type: invited
+  youtube: { id: 8ma7UzopwKQ, start: 205 }

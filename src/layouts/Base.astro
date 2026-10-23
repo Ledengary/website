@@ -1,0 +1,98 @@
+---
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/lexend/500.css';
+import '@fontsource/lexend/600.css';
+import '../styles/tokens.css';
+import '../styles/base.css';
+import '../styles/components.css';
+import { getEntry } from 'astro:content';
+import { getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title?: string; // page name; omitted on Home
+  description?: string; // defaults to the profile's SEO description
+  current?: 'home' | 'research' | 'about'; // omitted on pages outside the menu
+  noindex?: boolean; // keep a page out of search engines (e.g. 404)
+  person?: boolean; // JSON-LD Person (Home)
+}
+
+const { title, description, current, noindex = false, person = false } = Astro.props;
+const profile = (await getEntry('profile', 'profile'))!.data;
+const pageTitle = title ? `${title} · ${profile.name}` : `${profile.name} · Confidence Estimation for Language Models`;
+const desc = description ?? profile.seo.description;
+
+// Canonical URLs always use the real domain (astro.config `site`), without any preview base path.
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const path = Astro.url.pathname.startsWith(`${base}/`) ? Astro.url.pathname.slice(base.length) : Astro.url.pathname;
+const canonical = new URL(path, Astro.site).href;
+// Absolute URLs for the share image follow where the site is actually served: the real domain once
+// base is '/', the GitHub Pages preview while it runs under a sub-path.
+const origin = base ? 'https://ledengary.github.io' : Astro.site!.origin;
+const portraits = import.meta.glob<ImageMetadata>('/src/assets/images/portrait.{jpg,jpeg,png,webp}', { eager: true, import: 'default' });
+const portrait = Object.values(portraits)[0];
+const og = portrait && (await getImage({ src: portrait, format: 'jpg', width: 1200, height: 1200, fit: 'cover' }));
+const ogImage = og && new URL(og.src, origin).href;
+
+const personLd = person && {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Reza Khan Mohammadi',
+  alternateName: ['Reza Khanmohammadi'],
+  jobTitle: profile.roles[0].title,
+  affiliation: { '@type': 'CollegeOrUniversity', name: 'Michigan State University' },
+  url: new URL('/', Astro.site).href,
+  image: ogImage,
+  email: `mailto:${profile.email}`,
+  sameAs: profile.links.filter((l) => ['scholar', 'github', 'linkedin'].includes(l.icon)).map((l) => l.url),
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={desc} />
+    <meta name="author" content={profile.name} />
+    {!noindex && <link rel="canonical" href={canonical} />}
+    {/* Social cards */}
+    <meta property="og:type" content={person ? 'profile' : 'website'} />
+    <meta property="og:site_name" content={profile.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={desc} />
+    <meta property="og:url" content={canonical} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    {ogImage && <meta property="og:image:width" content="1200" />}
+    {ogImage && <meta property="og:image:height" content="1200" />}
+    {ogImage && <meta property="og:image:alt" content={`Portrait of ${profile.name}`} />}
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={desc} />
+    {ogImage && <meta name="twitter:image" content={ogImage} />}
+    {/* Tab icon: the Home portrait in its disc (public/icons/, rendered from the hero). */}
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/icons/favicon-48.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icons/favicon-192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/icons/favicon-512.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap.xml" />
+    {noindex && <meta name="robots" content="noindex" />}
+    {personLd && <script type="application/ld+json" set:html={JSON.stringify(personLd)} />}
+    <meta name="generator" content={Astro.generator} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header current={current} brand={profile.name} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer name={profile.name} />
+  </body>
+</html>

@@ -1,0 +1,1118 @@
+/* Components. Breakpoints: 899px (hero stacks, cards go to one column),
+   799px (header becomes two rows). */
+
+/* --------------------------------------------------------------------------
+   Header: one row on desktop, two rows (brand / links) below 800px. No JS.
+   -------------------------------------------------------------------------- */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+}
+.site-header__inner {
+  max-width: var(--content);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+  min-height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+.brand {
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: 1.05rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.brand:hover { color: var(--accent); }
+.brand:has(.brand__photo) { display: inline-flex; align-items: center; gap: 0.6rem; }
+/* The Home intro's disc, small: same background, framing and soft shadow. */
+.brand__photo {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--news-bg);
+  box-shadow: 0 0 0 1px rgba(20, 20, 25, 0.05), 0 1px 6px rgba(20, 20, 25, 0.16);
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 1.6vw, 1.5rem);
+}
+.site-nav a {
+  position: relative;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  padding: 0.35rem 0;
+}
+.site-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 2px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s var(--ease);
+}
+.site-nav a:hover { color: var(--ink); }
+.site-nav a:hover::after,
+.site-nav a[aria-current="page"]::after { transform: scaleX(1); }
+.site-nav a[aria-current="page"] { color: var(--accent); }
+.site-nav a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+
+@media (max-width: 799px) {
+  .site-header { position: static; }
+  .site-header__inner {
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.35rem;
+    min-height: 0;
+    padding-block: 0.9rem 0.6rem;
+  }
+  .site-nav { gap: 1.4rem; }
+}
+
+/* --------------------------------------------------------------------------
+   Sections and titles
+   -------------------------------------------------------------------------- */
+
+.section {
+  padding: var(--section-y) var(--gutter);
+  border-top: 1px solid var(--line);
+}
+.section--alt { background: var(--bg-alt); }
+/* A band that continues the section above it: no rule, no top padding. */
+.section--flush { border-top: 0; padding-top: 0; }
+.section__inner { max-width: var(--block); margin: 0 auto; }
+
+.section__title {
+  font-size: var(--fs-h2);
+  margin-bottom: 2rem;
+}
+.section__title::before {
+  content: "";
+  display: block;
+  width: 2rem;
+  height: 3px;
+  background: var(--accent);
+  border-radius: 3px;
+  margin-bottom: 0.7rem;
+}
+/* Variant: the title followed by a hairline to the column's right edge, no accent bar. */
+.section__title--rule { display: flex; align-items: center; gap: 1rem; }
+.section__title--rule::before { content: none; }
+.section__title--rule::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+
+/* Sub-page banner: centered uppercase title with a centered bar beneath. */
+.page-head {
+  padding: clamp(2.5rem, 6vw, 4.5rem) var(--gutter) clamp(1.5rem, 4vw, 3rem);
+  text-align: center;
+}
+.page-head__title {
+  font-size: var(--fs-h1);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+.page-head__title::after {
+  content: "";
+  display: block;
+  width: 2.5rem;
+  height: 3px;
+  background: var(--accent);
+  border-radius: 3px;
+  margin: 1rem auto 0;
+}
+
+/* Small uppercase label inside a section. */
+.label {
+  margin: 0 0 0.5rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+* + .label { margin-top: 2rem; }
+
+/* --------------------------------------------------------------------------
+   Hero: portrait left, text right; stacks and centers below 900px.
+   -------------------------------------------------------------------------- */
+
+.hero { padding: clamp(3rem, 7vw, 5.5rem) var(--gutter) clamp(2.5rem, 5vw, 4rem); }
+.hero__inner {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  max-width: var(--block);
+  margin: 0 auto;
+}
+.hero__photo {
+  flex: 0 0 auto;
+  width: var(--portrait);
+  height: var(--portrait);
+  border-radius: 50%;
+  overflow: hidden;
+  /* The portrait is a transparent cutout; the disc gives it a shape. */
+  background: var(--news-bg);
+  /* A light shadow all the way round: a faint edge plus a soft, barely offset glow. */
+  box-shadow: 0 0 0 1px rgba(20, 20, 25, 0.05), 0 3px 22px rgba(20, 20, 25, 0.16);
+}
+/* Zoom in on head and shoulders, nudged down so the hair clears the rim.
+   --photo-zoom and --photo-shift tune the framing. */
+.hero__photo-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-origin: 50% 0;
+  transform: translateY(var(--photo-shift, 4%)) scale(var(--photo-zoom, 1.1));
+}
+.hero__photo--pending {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  background: #e9e9ec;
+  border: 1px dashed #b9b9c0;
+  box-shadow: none;
+  text-align: center;
+  padding: 1.5rem;
+  color: var(--muted);
+}
+.hero__photo--pending strong { font-size: 0.85rem; color: var(--text); }
+.hero__photo--pending code { font-size: 0.68rem; line-height: 1.4; }
+
+.hero__body { flex: 1 1 auto; min-width: 0; }
+.hero__name { font-size: var(--fs-hero); letter-spacing: 0.005em; }
+.hero__roles {
+  list-style: none;
+  margin: 0.6rem 0 0;
+  padding: 0;
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+.hero__roles li + li { margin-top: 0.15rem; }
+.hero__roles a { white-space: nowrap; }
+/* Link buttons: outlined pills, icon in the accent color, label in ink. */
+.hero__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.9rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.38rem 0.66rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ink);
+  font-size: 0.85rem;
+  font-weight: 500;
+  line-height: 1.2;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+.link-btn .icon { width: 15px; height: 15px; flex: none; color: var(--accent); }
+.link-btn:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+.link-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 8px; }
+.hero__intro { margin-top: 1.25rem; font-size: 1.02em; }
+
+@media (max-width: 899px) {
+  .hero__inner { flex-direction: column; text-align: center; gap: 1.75rem; }
+  .hero__photo { width: clamp(150px, 45vw, 200px); height: auto; aspect-ratio: 1; }
+  .hero__body { width: 100%; }
+  .hero__links { justify-content: center; }
+  .hero__intro { text-align: left; max-width: 36rem; margin-inline: auto; }
+}
+
+/* Dot-separated inline lists (hero links, card links). */
+.dots { margin: 0; padding: 0; list-style: none; display: inline; }
+.dots > li { display: inline; white-space: nowrap; }
+.dots > li:not(:last-child)::after {
+  content: "\00b7";
+  display: inline-block;
+  margin: 0 0.4rem 0 0.5rem;
+  color: var(--muted);
+}
+
+/* --------------------------------------------------------------------------
+   Cards
+   -------------------------------------------------------------------------- */
+
+.cards {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.25rem;
+}
+@media (min-width: 900px) {
+  .cards { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(4, auto); }
+  .cards > .card { display: grid; grid-row: span 4; grid-template-rows: subgrid; row-gap: 0; }
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.5rem 1.5rem 1.35rem;
+  box-shadow: var(--shadow-sm);
+}
+.kicker {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+.card__title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.3;
+  margin-bottom: 0.6rem;
+}
+.card__body { flex: 1 1 auto; margin: 0; font-size: 0.95rem; line-height: 1.65; }
+.card__foot {
+  margin-top: 1.1rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.card__paper { display: block; color: var(--ink); }
+.card__paper a { font-weight: 600; }
+.card__note { display: block; text-wrap: balance; }
+
+/* --------------------------------------------------------------------------
+   At a Glance (Home): three cards. From 900px, subgrid keeps kicker, figure,
+   caption, rows and footnote level across the cards, and every row is the same
+   fixed height, so the row hairlines line up. Spare height sits above the footnote.
+   -------------------------------------------------------------------------- */
+
+.glance {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.25rem;
+  --glance-row: 40px;
+}
+@media (min-width: 900px) {
+  .glance { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(5, auto); }
+  .glance > .glance-card { display: grid; grid-row: span 5; grid-template-rows: subgrid; row-gap: 0; }
+}
+.glance-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+.glance__figure {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 0.55rem;
+  margin: 0.2rem 0 0.35rem;
+}
+.glance__value {
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: clamp(2.6rem, 2rem + 2vw, 3.25rem);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--accent);
+  white-space: nowrap;
+}
+.glance__unit {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.glance__caption { margin: 0 0 0.8rem; font-size: 0.9rem; line-height: 1.5; color: var(--muted); }
+.glance__mid { align-self: start; }
+
+/* Rows: first column left, middle centred, last right. */
+.glance__rows { display: block; width: 100%; margin: 0; padding: 0; list-style: none; border-collapse: collapse; }
+.glance__rows tbody { display: block; }
+.glance__row {
+  box-sizing: border-box;
+  height: var(--glance-row);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 0.6rem;
+  align-items: center;
+  border-top: 1px solid var(--line);
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+/* Three equal tracks with no gap, so the centred column lines up down the rows. */
+.glance__row--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 0; }
+.glance__row > * { padding: 0; text-align: left; }
+.glance__row > :last-child { justify-self: end; text-align: right; }
+.glance__row--3 > :nth-child(2) { text-align: center; }
+.glance__row--3 > :last-child { justify-self: stretch; }
+
+.glance__num { font-size: 1rem; font-weight: 600; color: var(--ink); white-space: nowrap; }
+.glance__strong { font-weight: 600; color: var(--ink); }
+.glance__muted { color: var(--muted); }
+.glance__name { font-weight: 500; color: var(--ink); white-space: nowrap; }
+.glance__label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.glance__foot {
+  align-self: start;
+  margin: 0.9rem 0 0;
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
+/* --------------------------------------------------------------------------
+   Entries (title left, date right) and the news callout
+   -------------------------------------------------------------------------- */
+
+.entry__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.25rem 1.25rem;
+}
+.entry__title {
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: 1.02rem;
+  line-height: 1.35;
+  color: var(--ink);
+}
+.entry__meta { color: var(--muted); font-size: 0.88rem; }
+.entry__when {
+  flex: 0 0 auto;
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.entry__desc { margin: 0.3rem 0 0; font-size: 0.97rem; }
+
+@media (max-width: 520px) {
+  .entry__head { flex-direction: column; }
+}
+
+.news {
+  max-width: var(--block);
+  background: var(--news-bg);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 1.5rem clamp(1.25rem, 3vw, 2rem);
+  box-shadow: var(--shadow-sm);
+}
+.news__list { list-style: none; margin: 0; padding: 0; }
+.news__list > li + li {
+  margin-top: 1.1rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid rgba(20, 20, 25, 0.1);
+}
+.news--pending { border-left-style: dashed; }
+
+/* Year tabs above the callout, styled like the main nav. Hidden until the script runs;
+   without JS every year shows stacked under its own heading instead. */
+.news-years {
+  display: flex;
+  gap: clamp(1rem, 2.4vw, 1.75rem);
+  max-width: var(--block);
+  /* Padding leaves room for the underline bar and focus ring, which overflow-x would clip;
+     the negative side margin keeps the first tab flush with the callout's edge. */
+  margin: -0.4rem -0.4rem 0.6rem;
+  padding: 0.4rem;
+  overflow-x: auto;      /* only if the row ever outgrows a phone; the page never scrolls */
+}
+.news-years[hidden] { display: none; }
+.news-years__tab {
+  position: relative;
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 0.35rem 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.2s var(--ease);
+}
+.news-years__tab::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 2px;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+.news-years__tab:hover { color: var(--ink); }
+.news-years__tab[aria-selected="true"] { color: var(--accent); }
+.news-years__tab[aria-selected="true"]::after { transform: scaleX(1); }
+.news-years__tab:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+
+/* Compact list on the band itself: date column | one paragraph (emoji, bold title, description). */
+.news-feed { max-width: var(--block); }
+.news-feed__list { list-style: none; margin: 0; padding: 0; }
+.news-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;  /* text | date on the right, as on About */
+  column-gap: 1.25rem;
+  align-items: baseline;  /* date sits on the paragraph's first line */
+}
+.news-item + .news-item { margin-top: 0.9rem; }
+.news-item__date {
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.news-item__date { grid-column: 2; grid-row: 1; }
+.news-item__text { margin: 0; font-size: 0.97rem; line-height: 1.6; }
+.news-item__title { color: var(--ink); font-weight: 600; }
+@media (max-width: 520px) {
+  .news-item { display: block; }
+  .news-item__date { display: block; margin-bottom: 0.1rem; }
+}
+
+.news__year:focus-visible { outline: 2px solid var(--accent); outline-offset: 6px; border-radius: 4px; }
+.news__year + .news__year {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(20, 20, 25, 0.18);
+}
+.news__year-title {
+  margin: 0 0 0.9rem;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+}
+.is-tabbed .news__year-title { display: none; }
+.is-tabbed .news__year + .news__year { margin-top: 0; padding-top: 0; border-top: 0; }
+
+/* Plain-text collaborator line and outreach entries. */
+.prose-line { margin: 0; max-width: var(--measure); font-size: 0.97rem; }
+.entries { list-style: none; margin: 0; padding: 0; max-width: var(--measure); }
+.entries > li + li { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--line); }
+
+/* --------------------------------------------------------------------------
+   Footer
+   -------------------------------------------------------------------------- */
+
+.site-footer {
+  border-top: 1px solid var(--line);
+  padding: 2.5rem var(--gutter);
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+}
+.site-footer p { margin: 0; }
+.entries .entry__title,
+.entries .entry__meta { display: block; }
+
+/* --------------------------------------------------------------------------
+   Research page: intro, theme tabs (reuse .news-years), themes, subgroups, paper rows
+   -------------------------------------------------------------------------- */
+
+.section--page { border-top: 0; }
+.page-intro { margin: 0 0 2rem; font-size: 1.02rem; line-height: 1.7; }
+
+/* Category cards: At a Glance look (kicker, then a short description), acting as filter toggles.
+   Selected, the card becomes a tab of a full-bleed grey band holding the filtered list.
+   - Gap: the list always starts 22px below the cards, then the same top padding in both states, so
+     the heading never moves. Its first 2px are where the band's top line is drawn.
+   - Only the selected card reaches down through that gap and 2px into the band: 26px more bottom
+     padding, cancelled by a -26px margin, so nothing moves. It keeps only its grey fill.
+   - Its outline and the band's top line are ONE SVG path (.tab-outline, drawn by the script):
+     left viewport edge, concave curve, tab sides and top, concave curve, right viewport edge.
+     Its grey fill is a second SVG (.tab-under) below the tab text, so the scrolling strip on mobile
+     can never clip it. Stacking, bottom to top: band, tab fill, tab text, fades, outline, arrows.
+   - The band is a pseudo-element stretched 100vmax each side, clipped by the section
+     (overflow-x: clip), so the page never scrolls sideways. --edge is --line made opaque on white. */
+.pubs { --edge: #ececed; --gap: 22px; --reach: 26px; --pad-y: 1.25rem; --pad-x: 1.5rem; }
+.section--page { overflow-x: clip; }
+.cat-strip { position: relative; } /* no z-index: its fades and arrows stack with the outline */
+.cat-cards { position: relative; z-index: 2; display: grid; gap: 1rem; margin-top: 2.5rem; }
+.cat-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  font: inherit;
+  text-align: left;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid var(--edge);
+  transition: opacity 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+.glance-card.cat-card { padding: var(--pad-y) var(--pad-x); }
+.cat-card:hover { color: inherit; text-decoration: none; }
+.cat-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.cat-card .kicker { margin: 0; }
+.cat-card__blurb { font-size: 0.9rem; line-height: 1.55; color: var(--muted); }
+.cat-card__count { display: none; }
+.cat-card__short { display: none; }
+.cat-arrow { display: none; }
+.is-filtered .cat-card:not([aria-pressed="true"]) { opacity: 0.85; }
+.is-filtered .cat-card:not([aria-pressed="true"]) .kicker { color: var(--accent-hover); } /* AA contrast while dimmed */
+.is-filtered .cat-card:not([aria-pressed="true"]):hover { opacity: 1; }
+
+.is-filtered .glance-card.cat-card[aria-pressed="true"] {
+  border-color: transparent;
+  border-bottom: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  padding: var(--pad-y) var(--pad-x) calc(var(--pad-y) + var(--reach) + 1px);
+  margin-bottom: calc(-1 * var(--reach));
+  background: transparent; /* the fill is drawn by .tab-under */
+  box-shadow: none;
+}
+
+/* The outline overlay: full section width, above the cards and the band, never clickable. The fill
+   path paints the two concave corners grey; the stroke path is the whole outline, with its glow
+   clipped (by the script's clip rects) to above the line. */
+.section--page { position: relative; }
+.tab-outline,
+.tab-under { position: absolute; left: 0; display: block; pointer-events: none; }
+.tab-outline { z-index: 4; }
+.tab-under { z-index: 1; } /* after the list in the DOM, so above the band, below the cards */
+.tab-outline[hidden],
+.tab-under[hidden] { display: none; } /* SVG elements ignore the hidden attribute by default */
+.tab-under path { fill: var(--bg-alt); stroke: none; }
+.tab-outline .tab-outline__stroke {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  shape-rendering: geometricPrecision;
+  filter: drop-shadow(0 -3px 8px rgba(14, 116, 144, 0.35));
+}
+
+.pubs__list { position: relative; z-index: 1; margin-top: var(--gap); padding-top: calc(2.5rem + 1px); }
+/* The band's top line: two segments placed by the script, one each side of the selected tab's full
+   span (between the outer ends of its curves, wherever the tab really is, even under an arrow or
+   off screen). Solid petrol, never masked; nothing is drawn under the tab. */
+.band-seg { display: none; position: absolute; top: 0; height: 2px; background: var(--accent); box-shadow: 0 -4px 16px rgba(14, 116, 144, 0.25); clip-path: inset(-40px 0 0 0); /* glow above the line only */ }
+.band-seg--l { left: -100vmax; width: 100vmax; }
+.band-seg--r { left: 0; right: -100vmax; }
+.is-filtered .band-seg { display: block; }
+.is-filtered .pubs__list::after {
+  content: "";
+  position: absolute;
+  left: -100vmax;
+  right: -100vmax;
+  z-index: -1;
+  top: 2px; bottom: calc(-1 * var(--section-y)); background: var(--bg-alt); }
+.pubs__blurb { margin: 0 0 1rem; font-size: 0.9rem; line-height: 1.5; color: var(--muted); }
+
+/* Theme heading: title, hairline, then "Show all" at the end of the line while filtering. */
+.pub-theme__head { display: flex; align-items: center; gap: 1rem; margin: 0 0 1.25rem; }
+.pub-theme__head .pub-theme__title { flex: 1; margin: 0; }
+.cat-reset__btn {
+  display: none;
+  flex: none;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 0.88rem;
+  line-height: 1;
+  color: var(--link);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.is-filtered .cat-reset__btn { display: inline; }
+.cat-reset__btn:hover { color: var(--link-hover); }
+
+/* Cards (640px and up): three columns; subgrid keeps kicker and blurb level. */
+@media (min-width: 640px) {
+  .cat-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(2, auto); column-gap: 1.25rem; }
+  .cat-cards > .cat-card { display: grid; grid-row: span 2; grid-template-rows: subgrid; row-gap: 0.6rem; align-content: start; }
+  .cat-card .kicker { align-self: end; }
+  .cat-card--all { display: none !important; }
+  .cat-card:not([aria-pressed="true"]):hover { border-color: rgba(14, 116, 144, 0.45); }
+  .pubs__blurb { display: none; }
+}
+@media (min-width: 640px) and (max-width: 767px) {
+  .pubs { --pad-y: 1rem; --pad-x: 1.1rem; }
+}
+
+/* Tab strip (under 640px): one scrolling row of compact tabs, same tab-and-band treatment. The
+   unselected tabs are borderless, so here the tabs sit directly on the hairline (no gap). */
+@media (max-width: 639px) {
+  /* Tabs end at the strip's bottom (it clips them), so here the band starts 4px up into the strip:
+     the line sits 2px above the tabs' foot and the selected tab overlaps it by 2px. */
+  .pubs { --pad-y: 0.55rem; --pad-x: 0.8rem; --gap: -4px; --reach: 0px; }
+  .cat-cards {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.35rem;
+    margin-top: 2rem;
+    padding: 0.25rem 18px 0;
+    overflow-x: auto;
+    scroll-padding-inline: 18px;
+    scrollbar-width: none;
+  }
+  .cat-cards::-webkit-scrollbar { display: none; }
+  /* Strip: [‹][viewport][›]. Arrows sit outside the scrolling viewport; their chevrons line up with
+     the tab text, and their 44px targets stay above the band line. Fades sit inside the viewport
+     edges, over the tab row only (never over the line). The viewport's top padding holds the glow. */
+  .cat-strip { display: flex; align-items: flex-end; margin-top: 1.5rem; }
+  /* No inset before the first tab: it starts at the gutter, or right after the left arrow. Scrolling a
+     tab into view keeps it clear of the fade (18px) by 12px more; the end padding gives the last tab
+     the same room. */
+  .cat-strip .cat-cards { flex: 1; min-width: 0; margin-top: 0; padding: 12px 30px 0 0; scroll-padding-inline: 30px; }
+  /* Arrow zones: one style, mirrored by a direction modifier. White from the strip's top down to the
+     band line's top edge (never over the line or the band), with the chevron. An arrow collapses
+     when it can't scroll that way. The fade into it is a mask on the strip and the tab's layers. */
+  .cat-arrow {
+    position: relative;
+    z-index: 5;
+    flex: none;
+    align-self: stretch;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    width: 44px;
+    min-height: 44px;
+    margin-bottom: 4px;
+    padding: 0 0 6px;
+    border: 0;
+    background: #fff;
+    color: var(--muted);
+    cursor: pointer;
+  }
+  .cat-arrow:active { color: var(--accent); }
+  .cat-arrow.is-off { display: none; }
+  /* Each zone continues white to its screen edge, over the page gutter (clipped by the section). */
+  .cat-arrow::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100vmax;
+    background: #fff;
+  }
+  .cat-arrow--left::after { right: 100%; }
+  .cat-arrow--right::after { left: 100%; }
+  .cat-card__label { display: none; }
+  .cat-card__short { display: inline; }
+  /* About a third of the desktop glow. */
+  .tab-outline .tab-outline__stroke { filter: drop-shadow(0 -1px 3px rgba(14, 116, 144, 0.14)); }
+  .band-seg { box-shadow: 0 -1px 5px rgba(14, 116, 144, 0.08); }
+  .glance-card.cat-card,
+  .cat-card {
+    flex: none;
+    width: auto;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 0.4rem;
+    padding: var(--pad-y) var(--pad-x);
+    border-color: transparent;
+    border-radius: 10px;
+    background: transparent;
+    box-shadow: none;
+    white-space: nowrap;
+  }
+  /* Unselected tabs read quieter through colour, not opacity (keeps WCAG AA contrast). */
+  .cat-card:not([aria-pressed="true"]) .kicker { color: var(--muted); }
+  .cat-card .kicker { font-size: 0.68rem; }
+  .cat-card__blurb { display: none; }
+  .cat-card__count { display: inline; font-size: 0.75rem; font-weight: 600; color: var(--muted); }
+  /* "All" selected: plain active text, no pill. A selected theme tab gets its grey from the tab rule. */
+  .cat-card[aria-pressed="true"] { opacity: 1; }
+  .is-filtered .glance-card.cat-card[aria-pressed="true"] { border-radius: 10px 10px 0 0; }
+  .pubs__list { padding-top: 1.5rem; }
+}
+@media (prefers-reduced-motion: reduce) { .cat-card { transition: none; } }
+
+.pub-theme + .pub-theme { margin-top: 2.75rem; }
+.is-filtered .pub-theme { margin-top: 0; } /* hidden themes before it would otherwise leave the gap */
+.pub-theme { scroll-margin-top: 80px; }
+.pub-theme__title { font-size: 1.2rem; margin: 0 0 1.25rem; }
+.pub-group + .pub-group { margin-top: 1.75rem; }
+.pub-group__label { margin: 0 0 0.9rem; }
+
+.papers { list-style: none; margin: 0; padding: 0; }
+.paper {
+  display: grid;
+  grid-template-columns: 168px minmax(0, 1fr);
+  column-gap: 1.25rem;
+  align-items: start;
+  scroll-margin-top: 80px;  /* clear the sticky header on /research#id */
+}
+.paper + .paper { margin-top: 0.9rem; }
+/* Arriving at a paper by its link (e.g. CCPS from Home): its row lights up in a soft petrol box,
+   then fades back. The box sits just outside the row, so nothing moves. */
+.paper { position: relative; isolation: isolate; }
+.paper::before {
+  content: "";
+  position: absolute;
+  inset: -10px -12px;
+  z-index: -1;
+  border-radius: 12px;
+  background: var(--news-bg);
+  box-shadow: 0 0 0 1.5px rgba(14, 116, 144, 0.55);
+  opacity: 0;
+  pointer-events: none;
+}
+.paper.is-flash::before { animation: paper-flash 4.5s linear forwards; } /* 3s lit, then a steady 1.5s fade to nothing */
+@keyframes paper-flash {
+  0%, 66.7% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .paper.is-flash::before { animation: none; opacity: 1; } /* removed by the script after a moment */
+}
+.paper__fig {
+  display: block;
+  width: 168px;
+  aspect-ratio: 16 / 10;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--news-bg);
+}
+.paper__ph { display: block; width: 100%; height: 100%; }
+/* Real figures: shown whole on white with a little padding; diagrams are never cropped. */
+.paper__fig:has(.paper__img) { background: #fff; padding: 6px; }
+.paper__img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.paper__ph-label { font-family: var(--font-head); font-weight: 600; font-size: 12px; fill: var(--accent); }
+.paper__body { min-width: 0; }
+.paper__title { margin: 0; font-family: var(--font-body); font-size: 0.97rem; font-weight: 600; line-height: 1.45; color: var(--ink); }
+.paper__title a { color: inherit; text-decoration: none; }
+.paper__title a:hover { color: var(--accent); text-decoration: underline; }
+.paper__authors { margin: 0.2rem 0 0; font-size: 0.85rem; line-height: 1.5; color: var(--muted); }
+.paper__authors strong { color: var(--ink); font-weight: 600; }
+.paper__meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;  /* links on the right; alone on a wrapped line they sit left */
+  align-items: center;
+  gap: 0.3rem 1rem;
+  margin: 0.35rem 0 0;
+}
+.paper__facts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem 0.5rem;
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+.paper__venue { color: var(--ink); font-weight: 500; }
+.badge {
+  padding: 0.1rem 0.5rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  font-size: 0.64rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.chip {
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--accent);
+}
+.paper__status { font-style: italic; }
+.paper__highlight { color: var(--accent); font-weight: 600; }
+.paper__media { margin: 0; font-size: 0.8rem; color: var(--muted); }
+.paper__meta + .paper__meta { margin-top: 0.35rem; }
+.paper__media a { color: inherit; text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 2px; }
+.paper__media a:hover { color: var(--accent); text-decoration-color: currentColor; }
+.paper__links { display: flex; flex-wrap: wrap; gap: 0.3rem; margin: 0; padding: 0; list-style: none; }
+/* Small version of the hero's link buttons, for paper rows. */
+.link-btn--sm { gap: 0.3rem; padding: 0.18rem 0.55rem; font-size: 0.76rem; border-radius: 8px; }
+.link-btn--sm .icon { width: 12px; height: 12px; }
+
+@media (max-width: 520px) {
+  .paper { grid-template-columns: 96px minmax(0, 1fr); column-gap: 0.85rem; }
+  .paper__fig { width: 96px; }
+}
+
+/* --------------------------------------------------------------------------
+   Presentations (/research, after the papers)
+   Band: grey by default (and without JS), white when a category is selected (.is-after-band, set by the
+   filter script together with Collaborators). Cards take the opposite colour of their band.
+   -------------------------------------------------------------------------- */
+
+.pres { --pres-card: var(--bg); background: var(--bg-alt); transition: background-color 0.2s var(--ease); }
+.pres.is-after-band { --pres-card: var(--bg-alt); background: var(--bg); }
+.pres__title { font-size: 1.2rem; margin-bottom: 1.5rem; }
+.pres__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.25rem; margin: 0; padding: 0; list-style: none; }
+@media (min-width: 768px) { .pres__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; } }
+.pres-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--pres-card);
+  box-shadow: 0 2px 4px rgba(20, 20, 25, 0.08), 0 12px 28px rgba(20, 20, 25, 0.14);
+  transition: background-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+}
+.pres-card:hover, .pres-card:focus-within { box-shadow: 0 4px 10px rgba(20, 20, 25, 0.1), 0 22px 50px rgba(20, 20, 25, 0.26); }
+.pres-card__media { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: #e9eef0; }
+.pres-card__media > a, .pres-card__media picture, .pres-card__media img, .yt__frame { display: block; width: 100%; height: 100%; }
+.pres-card__media img { object-fit: cover; }
+.yt__frame { border: 0; }
+.pres-card__lead, .yt { position: relative; cursor: zoom-in; }
+.yt { cursor: pointer; }
+.pres-card__lead:focus-visible, .yt:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; }
+.yt__play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  transform: translate(-50%, -50%);
+  transition: background-color 0.2s var(--ease), transform 0.2s var(--ease);
+}
+.yt__play svg { margin-left: 3px; }
+.yt:hover .yt__play, .yt:focus-visible .yt__play { background: var(--accent-hover); transform: translate(-50%, -50%) scale(1.06); }
+.pres-card__more {
+  position: absolute;
+  right: 0.6rem;
+  bottom: 0.6rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 8px;
+  background: rgba(20, 20, 25, 0.72);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+.pres-card__body { display: flex; flex-direction: column; gap: 0.55rem; padding: 1rem 1.15rem 1.15rem; flex: 1; }
+.pres-card__photos { align-self: flex-start; }
+.pres-card__kicker { margin: 0; }
+.pres-line__title { margin: 0; color: var(--ink); font-size: 1rem; font-weight: 600; line-height: 1.4; }
+.pres-line__meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 0.6rem; margin: 0.3rem 0 0; color: var(--muted); font-size: 0.85rem; }
+.pres-pill {
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 0.74rem;
+  font-weight: 600;
+}
+.pres-card__foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem 1rem; margin-top: auto; padding-top: 0.2rem; }
+.pres-card__links { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0; }
+.pres-card__loc { display: inline-flex; align-items: center; gap: 0.3rem; margin-left: auto; color: var(--muted); font-size: 0.82rem; white-space: nowrap; }
+.pres-card__loc .icon { width: 14px; height: 14px; flex: none; color: var(--accent); }
+@media (prefers-reduced-motion: reduce) { .pres, .pres-card, .yt__play { transition: none; } }
+
+/* Gallery caption under each photo (PhotoSwipe UI element). */
+.pswp__caption {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: min(100%, 760px);
+  padding: 0.9rem 1rem calc(1rem + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  color: #fff;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  text-align: center;
+}
+
+/* --------------------------------------------------------------------------
+   Collaborators and Support (end of /research)
+   White by default (and without JS, under the grey Presentations band); grey when a category is
+   selected and Presentations turns white. Same 1px hairline and padding in both states, so nothing
+   moves. The section is full width on its own.
+   -------------------------------------------------------------------------- */
+
+.collab { background: var(--bg); transition: background-color 0.2s var(--ease); }
+.collab.is-after-band { background: var(--bg-alt); }
+@media (prefers-reduced-motion: reduce) { .collab { transition: none; } }
+.collab__title { font-size: 1.2rem; margin-bottom: 0.75rem; }
+.collab__intro { margin: 0 0 1.75rem; color: var(--muted); font-size: 0.95rem; }
+.collab__logos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem 2.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.collab__logos li { display: flex; align-items: center; justify-content: center; min-height: 40px; }
+/* Greyscale and muted until hovered (see .logo-hover); no links. */
+.collab__logos img { display: block; width: auto; max-width: 100%; }
+.collab__name { font-weight: 600; color: var(--muted); }
+@media (max-width: 520px) {
+  .collab__logos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem 1.5rem; justify-items: center; }
+}
+
+/* --------------------------------------------------------------------------
+   Logos: grey by default, true colour when their row is hovered or has keyboard focus.
+   Touch screens (no hover) just show grey. Used on /about and in Collaborators on /research.
+   -------------------------------------------------------------------------- */
+
+.logo-hover { filter: grayscale(1); opacity: 0.55; transition: filter 0.25s var(--ease), opacity 0.25s var(--ease); }
+@media (hover: hover) {
+  .collab__logos li:hover .logo-hover { filter: none; opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) { .logo-hover { transition: none; } }
+
+/* About logos: full colour always; hovering or focusing the entry lifts the logo slightly (transform only, no reflow). */
+.about-logo { transition: transform 0.2s var(--ease); }
+@media (hover: hover) {
+  .org:hover .about-logo, .arow:hover .about-logo { transform: translateY(-2px); }
+}
+.org:focus-within .about-logo, .arow:focus-within .about-logo { transform: translateY(-2px); }
+@media (prefers-reduced-motion: reduce) { .about-logo { transition: none; } }
+
+/* About › In the Media: bold title on its own line, then muted "outlet · byline · format · date" and the button. */
+.media-row .arow__text strong { display: block; }
+.media__meta { color: var(--muted); font-size: 0.88rem; }
+.pullquote { max-width: 640px; margin: 2.25rem 0 0; padding: 0.4rem 0 0.4rem 1.25rem; border-left: 3px solid var(--accent); }
+.pullquote blockquote { margin: 0; }
+.pullquote p { margin: 0; font-family: var(--font-head); font-size: 1.2rem; font-style: normal; line-height: 1.5; color: var(--ink); }
+.pullquote figcaption { margin-top: 0.6rem; font-size: 0.85rem; color: var(--muted); }
+.pullquote figcaption a { color: inherit; }
+.pullquote figcaption a:hover { color: var(--accent); }
+
+/* Key figures marked ==…== in the About data. */
+.fig { color: var(--accent); font-weight: 600; }
+
+/* --------------------------------------------------------------------------
+   About page
+   -------------------------------------------------------------------------- */
+
+.about-top { padding-bottom: 2rem; }
+.about-top .section__title { margin-bottom: 1rem; }
+.jumps { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); line-height: 2; }
+.jumps .dots { display: block; }
+.jumps .dots > li { display: inline-block; }
+.jumps a { color: var(--muted); text-decoration: none; }
+.jumps a:hover, .jumps a:focus-visible { color: var(--accent); }
+.jumps a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+.jumps + .page-intro { margin-top: 1.25rem; }
+.section__title:has(+ .jumps) { margin-bottom: 1rem; } /* same gap as About */
+
+/* Organization entries: logo column, then name + dates, role, detail, thesis, links. */
+.orgs, .arows { list-style: none; margin: 0; padding: 0; }
+.org {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  column-gap: 1.1rem;
+  align-items: start;
+}
+.org + .org, .arow + .arow { margin-top: 0.9rem; }
+.org__logo { display: flex; align-items: center; justify-content: center; width: 52px; min-height: 1.6rem; padding-top: 0.15rem; }
+.org__logo img { display: block; max-width: 52px; max-height: 40px; width: auto; height: auto; }
+.org__body > p { margin: 0; }
+.org__head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 0 1rem; }
+.org__name { color: var(--ink); font-weight: 600; }
+.org__dates, .arow__year { color: var(--muted); font-size: 0.85rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.org__role { font-size: 0.97rem; color: var(--text); }
+.org__detail { margin-top: 0.15rem !important; font-size: 0.9rem; color: var(--muted); }
+.org__thesis { margin-top: 0.3rem !important; font-size: 0.9rem; color: var(--text); }
+.org__thesis-desc { display: block; }
+.org__thesis-label { font-weight: 700; color: var(--ink); }
+/* Link buttons follow straight on from the end of their paragraph's text, wrapping like words. */
+.about-links, .about-links__group { display: inline; }
+.about-links__label { font-size: 0.76rem; color: var(--muted); margin-left: 0.4rem; }
+.about-links .link-btn { display: inline-flex; vertical-align: 0.05em; margin: 0.12rem 0 0.12rem 0.35rem; line-height: 1.4; }
+
+/* TA courses: one compact line each. */
+.courses { list-style: none; margin: 0.4rem 0 0; padding: 0; font-size: 0.88rem; line-height: 1.6; color: var(--text); }
+.courses__name { color: var(--ink); font-weight: 500; }
+.materials { display: inline-flex; flex-wrap: nowrap; align-items: center; gap: 0.3rem; margin-left: 0.4rem; vertical-align: 0.05em; white-space: nowrap; }
+.materials .icon { width: 13px; height: 13px; color: var(--accent); }
+
+/* Compact rows: bold title and context in one paragraph, year on the right. */
+.arow { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 1.25rem; align-items: baseline; }
+.arow--logo { grid-template-columns: 52px minmax(0, 1fr) auto; column-gap: 1.1rem; align-items: start; }
+.arow--logo .arow__year { padding-top: 0.15rem; }
+.arow__text { margin: 0; font-size: 0.97rem; line-height: 1.6; }
+.arow__text strong { color: var(--ink); font-weight: 600; }
+
+@media (max-width: 520px) {
+  .org { grid-template-columns: 40px minmax(0, 1fr); column-gap: 0.85rem; }
+  .org__logo { width: 40px; }
+  .org__logo img { max-width: 40px; max-height: 32px; }
+  .org__head { flex-direction: column; }
+  .arow { grid-template-columns: minmax(0, 1fr); }
+  .arow--logo { grid-template-columns: 40px minmax(0, 1fr); }
+  .arow__year { grid-column: -2; grid-row: 1; justify-self: start; }
+  .arow { display: flex; flex-direction: column-reverse; align-items: flex-start; }
+  .arow--logo { display: grid; }
+  .arow--logo .arow__year { grid-column: 2; grid-row: 1; padding-top: 0; }
+  .arow--logo .arow__body { grid-column: 2; grid-row: 2; }
+  .arow--logo .org__logo { grid-column: 1; grid-row: 1 / span 2; }
+}
+
+/* 404 */
+.notfound__links { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0; }

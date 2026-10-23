@@ -1,0 +1,61 @@
+---
+// One organization: logo on the left; name and dates, role, detail, thesis, links (and TA courses) on the right.
+import type { CollectionEntry } from 'astro:content';
+import { logo } from '../../lib/logos';
+import { figures } from '../../lib/text';
+import Icon from '../Icon.astro';
+import Links from './Links.astro';
+
+interface Props {
+  entry: CollectionEntry<'experience'>['data'];
+  thesisTitle?: string; // replaces "{profile}"
+}
+const { entry: e, thesisTitle } = Astro.props;
+const img = logo(e.logo);
+// The links go at the end of the last text paragraph (thesis, else detail, else role).
+const linksIn = e.thesis ? 'thesis' : e.detail ? 'detail' : 'role';
+const thesis = e.thesis && { ...e.thesis, title: e.thesis.title === '{profile}' ? (thesisTitle ?? '') : e.thesis.title };
+---
+
+<li class="org">
+  <span class="org__logo" aria-hidden="true">
+    {img && <img class="about-logo" src={img.src} alt="" width={img.width} height={img.height} loading="lazy" decoding="async" />}
+  </span>
+  <div class="org__body">
+    <p class="org__head">
+      <span class="org__name">{e.org}</span>
+      <span class="org__dates">{e.dates}</span>
+    </p>
+    <p class="org__role"><Fragment set:html={figures(e.role)} />{linksIn === 'role' && <Links links={e.links} />}</p>
+    {e.detail && <p class="org__detail"><Fragment set:html={figures(e.detail)} />{linksIn === 'detail' && <Links links={e.links} />}</p>}
+    {
+      thesis && thesis.title && (
+        <p class="org__thesis">
+          <span class="org__thesis-label">Thesis:</span>{' '}
+          <em>{thesis.url ? <a href={thesis.url}>{thesis.title}</a> : thesis.title}</em>
+          {linksIn === 'thesis' && <Links links={e.links} />}
+          <span class="org__thesis-desc">{thesis.sentence}</span>
+        </p>
+      )
+    }
+    {
+      e.courses && (
+        <ul class="courses">
+          {e.courses.map((c) => (
+            <li>
+              <span class="courses__name">{c.name}:</span> {c.role && `${c.role}, `}{c.terms}{c.size && ', '}
+              {c.size && <span class="fig">{c.size}</span>}
+              <Links links={c.links} />
+              {c.materials.length > 0 && (
+                <span class="materials">
+                  <Icon name="materials" />
+                  {c.materials.map((l) => <a class="link-btn link-btn--sm" href={l.url}>{l.label}</a>)}
+                </span>
+              )}
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</li>

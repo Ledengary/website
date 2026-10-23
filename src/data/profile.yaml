@@ -1,0 +1,51 @@
+# Who you are. Shown in the hero, header, footer and page metadata.
+# Text fields accept inline Markdown: [link](url), **bold**, *italic*.
+
+name: Reza Khan Mohammadi
+# Other spellings people search for (papers use "Khanmohammadi, R.").
+name_variants:
+  - Reza Khanmohammadi
+  - Khanmohammadi, R.
+
+# Lines under your name. `title` is bold, `rest` follows after a comma.
+roles:
+  - title: Ph.D. Candidate in Computer Science
+    rest: Michigan State University
+  - title: AI Research Assistant
+    rest: "Human Augmentation and Artificial Intelligence Lab, advised by [Mohammad M. Ghassemi](https://ghassemi.xyz/)"
+
+# Hero link buttons, in display order. icon: scholar | github | linkedin | email | resume
+links:
+  - label: Google Scholar
+    icon: scholar
+    url: https://scholar.google.com/citations?user=DadaCmsAAAAJ&hl=en
+  - label: GitHub
+    icon: github
+    url: https://github.com/ledengary
+  - label: LinkedIn
+    icon: linkedin
+    url: https://www.linkedin.com/in/khanreza/
+  - label: Email
+    icon: email
+    url: mailto:khanreza@msu.edu
+  - label: Resume
+    icon: resume
+    url: /resume.pdf
+
+# Ph.D. thesis title (from the resume).
+thesis: "Signals of Trust: Confidence Estimation in Language, Reasoning, and Vision-Language Models"
+
+email: khanreza@msu.edu
+scholar_url: https://scholar.google.com/citations?user=DadaCmsAAAAJ&hl=en
+
+# Hero paragraph(s). Separate paragraphs with a blank line.
+intro: |
+  I work on making AI systems honest about their own certainty, so that when they are confident, you can be too.
+  My research develops confidence estimation methods for language models, with a focus on oncology and finance,
+  where overconfidence can cause serious harm.
+
+seo:
+  description: >-
+    Reza Khan Mohammadi (Khanmohammadi) is a Computer Science Ph.D. candidate at Michigan State
+    University researching confidence estimation for large language models, reasoning models, and
+    vision-language models.

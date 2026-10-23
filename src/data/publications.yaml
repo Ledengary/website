@@ -1,0 +1,382 @@
+# Papers on /research, rendered by src/pages/research.astro.
+#
+# - id: ccps-emnlp25                  # also the anchor: /research#ccps-emnlp25
+#   title: ...
+#   authors: [Reza Khanmohammadi, ...]  # full list, from the paper's own page; "et al." only if unconfirmable.
+#                                      # One spelling per person across all papers (e.g. Kundan Thind,
+#                                      # Charese H. Smiley, Mohammad M. Ghassemi).
+#   venue_short: EMNLP                 # shown with the year: "EMNLP 2025"
+#   venue_full: ...
+#   year: 2025                         # optional (e.g. under review)
+#   type: main-conference              # main-conference | conference | journal | abstract | preprint
+#   theme: confidence                  # confidence | oncology | earlier
+#   subgroup: New estimators across model families
+#   tags: [oncology]                   # core-cs | oncology | medical | finance (optional)
+#   highlight: ...                     # optional, shown in petrol
+#   status_note: Under review          # optional
+#   short_name: CCPS                   # label on the placeholder figure
+#   links: { paper, code, data, video, arxiv }   # all optional; the main link is paper, else arxiv
+#
+# Figure: src/assets/papers/<id>.png (or .jpg / .webp); see docs/inputs/paper-figures.md.
+# Within a subgroup, papers sort newest first; same-year papers keep this file's order.
+# Every link was checked before it went in; open items are in docs/LINKS_TODO.md.
+
+# ===== Confidence & Reliability =====
+
+- id: bicr-aacl26
+  title: "Grounded or Guessing? LVLM Confidence Estimation via Blind-Image Contrastive Ranking"
+  authors: [Reza Khanmohammadi, Erfan Miahi, Simerjot Kaur, Charese H. Smiley, Ivan Brugere, Kundan Thind, Mohammad M. Ghassemi]
+  venue_short: AACL-IJCNLP
+  venue_full: Asia-Pacific Chapter of the Association for Computational Linguistics and International Joint Conference on Natural Language Processing
+  year: 2026
+  type: main-conference
+  theme: confidence
+  tags: [core-cs]
+  subgroup: New estimators across model families
+  short_name: BICR
+  links:
+    arxiv: https://arxiv.org/abs/2605.10893
+    code: https://github.com/Ledengary/BICR
+    data: https://huggingface.co/datasets/ledengary/VLCB
+
+- id: rmcb-eacl26
+  title: "How Reliable are Confidence Estimators for Large Reasoning Models? A Systematic Benchmark on High-Stakes Domains"
+  authors: [Reza Khanmohammadi, Erfan Miahi, Simerjot Kaur, Charese H. Smiley, Ivan Brugere, Kundan Thind, Mohammad M. Ghassemi]
+  venue_short: EACL
+  venue_full: Proceedings of the 19th Conference of the European Chapter of the Association for Computational Linguistics (Volume 1, Long Papers)
+  year: 2026
+  type: main-conference
+  theme: confidence
+  tags: [core-cs]
+  subgroup: New estimators across model families
+  short_name: RMCB
+  links:
+    paper: https://aclanthology.org/2026.eacl-long.78/
+    code: https://github.com/Ledengary/RMCB
+    data: https://huggingface.co/datasets/ledengary/RMCB
+
+- id: ccps-emnlp25
+  title: "Calibrating LLM Confidence by Probing Perturbed Representation Stability"
+  authors: [Reza Khanmohammadi, Erfan Miahi, Mehrsa Mardikoraem, Simerjot Kaur, Ivan Brugere, Charese H. Smiley, Kundan Thind, Mohammad M. Ghassemi]
+  venue_short: EMNLP
+  venue_full: Proceedings of the 2025 Conference on Empirical Methods in Natural Language Processing
+  year: 2025
+  type: main-conference
+  theme: confidence
+  tags: [core-cs]
+  subgroup: New estimators across model families
+  highlight: "Outstanding Paper nominee, top 0.4%"
+  short_name: CCPS
+  links:
+    paper: https://aclanthology.org/2025.emnlp-main.530/
+    code: https://github.com/ledengary/CCPS
+    data: https://huggingface.co/datasets/ledengary/CCPS
+
+- id: vlm-confidence-attack
+  title: "Vision-Language Model Confidence Is Not a Property of the Answer"
+  authors: [Reza Khanmohammadi, Erfan Miahi, Ivan Brugere, Simerjot Kaur, Charese H. Smiley, Kundan Thind, Mohammad M. Ghassemi]
+  venue_short: arXiv
+  venue_full: arXiv preprint
+  year: 2026
+  type: preprint
+  theme: confidence
+  tags: [core-cs]
+  subgroup: Stress-testing confidence
+  status_note: Under review
+  short_name: Attacks
+  links:
+    arxiv: https://arxiv.org/abs/2608.06571
+    code: https://github.com/Ledengary/vlm-confidence-attacks
+
+- id: medvlm-confidence
+  title: "Calibrated Triage, Not Autonomy: Confidence Estimation for Medical Vision-Language Models"
+  authors: [Reza Khanmohammadi, Kundan Thind, Mohammad M. Ghassemi]
+  venue_short: arXiv
+  venue_full: arXiv preprint
+  year: 2026
+  type: preprint
+  theme: confidence
+  subgroup: Confidence where errors are costly
+  tags: [medical]
+  status_note: Under review
+  short_name: Medical VLMs
+  links:
+    arxiv: https://arxiv.org/abs/2606.15910
+
+- id: finvlm-confidence
+  title: "Confidence Estimation for Financial Vision-Language Models in Chart and Document Understanding"
+  authors: [Reza Khanmohammadi, Simerjot Kaur, Charese H. Smiley, Ivan Brugere, Mohammad M. Ghassemi]
+  venue_short: arXiv
+  venue_full: arXiv preprint
+  year: 2026
+  type: preprint
+  theme: confidence
+  subgroup: Confidence where errors are costly
+  tags: [finance]
+  status_note: Under review
+  short_name: Financial VLMs
+  links:
+    arxiv: https://arxiv.org/abs/2608.06532
+
+- id: chart-review-astro26
+  title: "Risk-Controlled Selective Automation of Oncology Chart Review via Representational Stability Calibration"
+  authors: [Reza Khanmohammadi, Ahmed I. Ghanem, S. Siddiqui, Hassan Bagher-Ebadian, Benjamin Movsas, Mohammad M. Ghassemi, Kundan Thind]
+  venue_short: ASTRO
+  venue_full: International Journal of Radiation Oncology, Biology, Physics 126(1), e228 (ASTRO 2026 Annual Meeting)
+  year: 2026
+  type: abstract
+  theme: confidence
+  subgroup: Confidence where errors are costly
+  tags: [oncology]
+  highlight: Spotlight
+  short_name: Chart review
+  links:
+    paper: https://doi.org/10.1016/j.ijrobp.2026.06.1155
+
+- id: safe-clinical-astro26
+  title: "Teaching Language Models Safe Clinical Decision Making: Risk-Informed Training to Reduce Catastrophic Errors in Oncology"
+  authors: [Reza Khanmohammadi, Ahmed I. Ghanem, Y. Jee, A.R. Bhatnagar, S. Siddiqui, Mohamed A. Elshaikh, Hassan Bagher-Ebadian, Benjamin Movsas, Mohammad M. Ghassemi, Kundan Thind]
+  venue_short: ASTRO
+  venue_full: International Journal of Radiation Oncology, Biology, Physics 126(1), S158 (ASTRO 2026 Annual Meeting)
+  year: 2026
+  type: abstract
+  theme: confidence
+  subgroup: Confidence where errors are costly
+  tags: [oncology]
+  highlight: "Oral, top 11%"
+  short_name: Safe decisions
+  links:
+    paper: https://doi.org/10.1016/j.ijrobp.2026.06.248
+
+# ===== LLMs for Oncology =====
+
+- id: ctcae-validation-astro26
+  title: "Clinical Validation of a Privacy-Preserving LLM for End-to-End CTCAE Toxicity Assessment in Prostate Cancer Radiotherapy"
+  authors: [Reza Khanmohammadi, Ahmed I. Ghanem, A.R. Bhatnagar, S. Siddiqui, Mohamed A. Elshaikh, Hassan Bagher-Ebadian, Benjamin Movsas, Mohammad M. Ghassemi, Kundan Thind]
+  venue_short: ASTRO
+  venue_full: International Journal of Radiation Oncology, Biology, Physics 126(1), e581 (ASTRO 2026 Annual Meeting)
+  year: 2026
+  type: abstract
+  theme: oncology
+  tags: [oncology]
+  subgroup: Toxicity extraction and grading
+  short_name: CTCAE validation
+  links:
+    paper: https://doi.org/10.1016/j.ijrobp.2026.06.1926
+
+- id: ctcae-grading-astro25
+  title: "Efficient CTCAE Grading for Post-Radiotherapy Toxicities Using Large Language Models: A Privacy-Preserving Approach Using Instruction Fine-Tuning"
+  authors: [Reza Khanmohammadi, Ahmed I. Ghanem, A.R. Bhatnagar, Jawad Turfa, S. Siddiqui, Mohamed A. Elshaikh, Hassan Bagher-Ebadian, Benjamin Movsas, Indrin J. Chetty, Mohammad M. Ghassemi, Kundan Thind]
+  venue_short: ASTRO
+  venue_full: International Journal of Radiation Oncology, Biology, Physics 123(1), e746 (ASTRO 2025 Annual Meeting)
+  year: 2025
+  type: abstract
+  theme: oncology
+  tags: [oncology]
+  subgroup: Toxicity extraction and grading
+  short_name: CTCAE grading
+  links:
+    paper: https://doi.org/10.1016/j.ijrobp.2025.06.3177
+
+- id: hybrid-st-bhi25
+  title: "Hybrid Student-Teacher Large Language Model Refinement for Cancer Toxicity Symptom Extraction"
+  authors: [Reza Khanmohammadi, Ahmed I. Ghanem, Kyle Verdecchia, Ryan D. Hall, Mohamed A. Elshaikh, Bing Luo, Benjamin Movsas, Hassan Bagher-Ebadian, Indrin J. Chetty, Tuka Alhanai, Kundan Thind, Mohammad M. Ghassemi]
+  venue_short: IEEE BHI
+  venue_full: 2025 IEEE EMBS International Conference on Biomedical and Health Informatics (BHI)
+  year: 2025
+  type: conference
+  theme: oncology
+  tags: [oncology]
+  subgroup: Toxicity extraction and grading
+  short_name: Student-teacher
+  links:
+    paper: https://doi.org/10.1109/BHI67747.2025.11269490
+
+- id: toxicity-peft-aapm25
+  title: "Advancing Post-Radiotherapy Toxicity Extraction: A Novel Privacy-Preserving, Parameter-Efficient Language Model Fine-Tuning"
+  authors: [Reza Khanmohammadi, Ahmed I. Ghanem, Jawad Turfa, M. Salim Siddiqui, Mohamed A. Elshaikh, Hassan Bagher-Ebadian, Benjamin Movsas, Indrin J. Chetty, Mohammad M. Ghassemi, Kundan Thind]
+  venue_short: AAPM
+  venue_full: Medical Physics 52(10) (AAPM 2025 Annual Meeting)
+  year: 2025
+  type: abstract
+  theme: oncology
+  tags: [oncology]
+  subgroup: Toxicity extraction and grading
+  short_name: PEFT extraction
+  links:
+    # Henry Ford Health's repository record for the Medical Physics abstract (no DOI found).
+    paper: https://scholarlycommons.henryford.com/radiationoncology_mtgabstracts/385
+
+- id: localized-st-astro24
+  title: "A Novel Localized Student-Teacher LLM for Enhanced Toxicity Extraction in Radiation Oncology"
+  authors: [Reza Khanmohammadi, Ahmed I. Ghanem, Kyle Verdecchia, Ryan D. Hall, Mohamed A. Elshaikh, Benjamin Movsas, Hassan Bagher-Ebadian, Indrin J. Chetty, Mohammad M. Ghassemi, Kundan Thind]
+  venue_short: ASTRO
+  venue_full: International Journal of Radiation Oncology, Biology, Physics 120(2), e632–e633 (ASTRO 2024 Annual Meeting)
+  year: 2024
+  type: abstract
+  theme: oncology
+  tags: [oncology]
+  subgroup: Toxicity extraction and grading
+  short_name: Local LLM
+  links:
+    paper: https://doi.org/10.1016/j.ijrobp.2024.07.1392
+
+- id: prompt-refinement-iccr24
+  title: "Iterative Prompt Refinement for Radiation Oncology Symptom Extraction Using Teacher-Student Large Language Models"
+  authors: [Reza Khanmohammadi, Ahmed I. Ghanem, Kyle Verdecchia, Ryan D. Hall, Mohamed A. Elshaikh, Benjamin Movsas, Hassan Bagher-Ebadian, Indrin J. Chetty, Mohammad M. Ghassemi, Kundan Thind]
+  venue_short: ICCR
+  venue_full: XX-th International Conference on the Use of Computers in Radiation Therapy (ICCR 2024)
+  year: 2024
+  type: conference
+  theme: oncology
+  tags: [oncology]
+  subgroup: Toxicity extraction and grading
+  highlight: Oral
+  short_name: Prompt refinement
+  links:
+    # The ICCR 2024 proceedings volume on HAL; the paper is inside it.
+    paper: https://hal.science/hal-04720234
+    arxiv: https://arxiv.org/abs/2402.04075
+
+- id: toxicity-pipeline-aapm23
+  title: "A Novel Learning Approach for Training Transformer-Based Natural Language Processing Pipeline to Extract Toxicity Symptoms in Prostate Cancer Patients after Definitive Radiotherapy"
+  # Only the first author could be confirmed (see docs/LINKS_TODO.md).
+  authors: [Reza Khanmohammadi, et al.]
+  venue_short: AAPM
+  venue_full: AAPM 2023 Annual Meeting
+  year: 2023
+  type: abstract
+  theme: oncology
+  tags: [oncology]
+  subgroup: Toxicity extraction and grading
+  short_name: NLP pipeline
+
+- id: nlp-guide-bjrai25
+  title: "Integrating natural language processing into radiation oncology: a practical guide to transformer architecture and large language models"
+  authors: [Reza Khanmohammadi, Mohammad M. Ghassemi, Kyle Verdecchia, Ahmed I. Ghanem, Bing Luo, Indrin J. Chetty, Hassan Bagher-Ebadian, Farzan Siddiqui, Mohamed A. Elshaikh, Benjamin Movsas, Kundan Thind]
+  venue_short: BJR|Artificial Intelligence
+  venue_full: BJR|Artificial Intelligence 2(1)
+  year: 2025
+  type: journal
+  theme: oncology
+  tags: [oncology]
+  subgroup: Guides
+  short_name: Practical guide
+  links:
+    paper: https://doi.org/10.1093/bjrai/ubaf010
+    arxiv: https://arxiv.org/abs/2311.02205
+
+# ===== Earlier Work =====
+
+- id: prose2poem-tallip23
+  title: "Prose2Poem: The Blessing of Transformers in Translating Prose to Persian Poetry"
+  authors: [Reza Khanmohammadi, Mitra Sadat Mirshafiee, Yazdan Rezaee Jouryabi, Seyed Abolghasem Mirroshandel]
+  venue_short: ACM TALLIP
+  venue_full: ACM Transactions on Asian and Low-Resource Language Information Processing 22(6)
+  year: 2023
+  type: journal
+  theme: earlier
+  tags: [core-cs]
+  subgroup: Low-resource NLP
+  short_name: Prose2Poem
+  links:
+    paper: https://doi.org/10.1145/3592791
+
+- id: pgst-nle
+  title: "PGST: A Persian gender style transfer method"
+  authors: [Reza Khanmohammadi, Seyed Abolghasem Mirroshandel]
+  venue_short: Natural Language Engineering
+  venue_full: Natural Language Engineering 30(5)
+  year: 2023
+  type: journal
+  theme: earlier
+  tags: [core-cs]
+  subgroup: Low-resource NLP
+  short_name: PGST
+  links:
+    paper: https://doi.org/10.1017/S1351324923000426
+    arxiv: https://arxiv.org/abs/2009.01040
+
+- id: coper-icwr21
+  title: "COPER: a Query-Adaptable Semantics-based Search Engine for Persian COVID-19 Articles"
+  authors: [Reza Khanmohammadi, Mitra Sadat Mirshafiee, Mehdi Allahyari]
+  venue_short: ICWR
+  venue_full: 2021 7th International Conference on Web Research (ICWR)
+  year: 2021
+  type: conference
+  theme: earlier
+  tags: [core-cs]
+  subgroup: Low-resource NLP
+  short_name: COPER
+  links:
+    paper: https://doi.org/10.1109/ICWR51868.2021.9443151
+
+- id: finance-graph-dataset
+  title: "Bridging Scientific Research, Innovation, and Finance: A Temporal Heterogeneous Graph Dataset for Financial Investment Prediction"
+  # No paper page yet; authors from the old site (khanmohammadi.me), names normalized to their full forms.
+  authors: [Reza Khanmohammadi, K. Singh, P. Maheshwari, V. Panda, Simerjot Kaur, Ivan Brugere, Charese H. Smiley, Armineh Nourbakhsh, Tuka Alhanai, Mohammad M. Ghassemi]
+  type: preprint
+  theme: earlier
+  subgroup: Applied machine learning
+  tags: [finance]
+  status_note: Under review
+  short_name: Finance graph
+
+- id: funding-tcss24
+  title: "Investigating the Temporal Association of Biomedical Research on Small Business Funding: A Bibliometric and Data Analytic Approach"
+  authors: [Reza Khanmohammadi, Simerjot Kaur, Charese H. Smiley, Tuka Alhanai, Ivan Brugere, Armineh Nourbakhsh, Mohammad M. Ghassemi]
+  venue_short: IEEE TCSS
+  venue_full: IEEE Transactions on Computational Social Systems 12(5)
+  year: 2025
+  type: journal
+  theme: earlier
+  subgroup: Applied machine learning
+  tags: [finance]
+  short_name: Science to funding
+  links:
+    paper: https://doi.org/10.1109/TCSS.2024.3466010
+    arxiv: https://arxiv.org/abs/2401.00942
+
+- id: mambanet-sncs24
+  title: "MambaNet: A Hybrid Neural Network for Predicting the NBA Playoffs"
+  authors: [Reza Khanmohammadi, Sari Saba-Sadiya, Sina Esfandiarpour, Tuka Alhanai, Mohammad M. Ghassemi]
+  venue_short: SN Computer Science
+  venue_full: SN Computer Science 5(5)
+  year: 2024
+  type: journal
+  theme: earlier
+  tags: [core-cs]
+  subgroup: Applied machine learning
+  short_name: MambaNet
+  links:
+    paper: https://doi.org/10.1007/s42979-024-02977-0
+
+- id: feature-imitation
+  title: "The Broad Impact of Feature Imitation: Neural Enhancements Across Financial, Speech, and Physiological Domains"
+  authors: [Reza Khanmohammadi, Tuka Alhanai, Mohammad M. Ghassemi]
+  venue_short: arXiv
+  venue_full: arXiv preprint
+  year: 2023
+  type: preprint
+  theme: earlier
+  tags: [core-cs]
+  subgroup: Applied machine learning
+  short_name: Feature imitation
+  links:
+    arxiv: https://arxiv.org/abs/2309.12279
+
+- id: fetal-sex
+  title: "Fetal Biological Sex Identification using Machine and Deep Learning Algorithms on Phonocardiogram Signals"
+  authors: [Reza Khanmohammadi, Mitra Sadat Mirshafiee, Mohammad M. Ghassemi, Tuka Alhanai]
+  venue_short: arXiv
+  venue_full: arXiv preprint
+  year: 2021
+  type: preprint
+  theme: earlier
+  tags: [medical]
+  subgroup: Applied machine learning
+  highlight: Presented at IEEE BHI 2023
+  short_name: Fetal PCG
+  links:
+    arxiv: https://arxiv.org/abs/2110.06131
+    video: https://www.youtube.com/watch?v=xQLEryZHWns

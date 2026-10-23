@@ -1,0 +1,47 @@
+---
+// Link buttons on About and in Home's News (same look as the paper buttons on /research). They follow straight
+// on from the text, so place it at the very end of the paragraph it belongs to.
+// Links sharing a `group` sit together after the group's label.
+import Icon, { type IconName } from '../Icon.astro';
+
+interface Props {
+  links?: { label: string; url: string; group?: string; icon?: IconName }[];
+}
+const { links = [] } = Astro.props;
+const groups: { group?: string; links: NonNullable<Props['links']> }[] = [];
+for (const l of links) {
+  const last = groups.at(-1);
+  if (last && last.group === l.group) last.links.push(l);
+  else groups.push({ group: l.group, links: [l] });
+}
+
+// The icon comes from where the link points.
+const iconFor = (url: string): IconName =>
+  /youtube\.com|youtu\.be/.test(url) ? 'youtube'
+  : /drive\.google\.com/.test(url) ? 'drive'
+  : /github\.com/.test(url) ? 'github'
+  : /huggingface\.co/.test(url) ? 'huggingface'
+  : /arxiv\.org/.test(url) ? 'arxiv'
+  : /^\/research|doi\.org|aclanthology\.org/.test(url) ? 'paper'
+  : /msutoday\./.test(url) ? 'news'
+  : /\.pdf$/i.test(url) ? 'slides'
+  : 'web';
+---
+
+{
+  links.length > 0 && (
+    <span class="about-links">
+      {groups.map((g) => (
+        <span class="about-links__group">
+          {g.group && <span class="about-links__label">{g.group}</span>}
+          {g.links.map((l) => (
+            <a class="link-btn link-btn--sm" href={l.url}>
+              <Icon name={l.icon ?? iconFor(l.url)} />
+              {l.label}
+            </a>
+          ))}
+        </span>
+      ))}
+    </span>
+  )
+}
