@@ -1,10 +1,17 @@
 # Build with Astro and deploy to GitHub Pages on every push to main (official withastro/action).
+# Also called by update-scholar.yml after it commits new numbers (its GITHUB_TOKEN push can't trigger this).
 name: Deploy to GitHub Pages
 
 on:
   push:
     branches: [main]
   workflow_dispatch:
+  workflow_call:
+    inputs:
+      ref:
+        description: Commit to build (defaults to the triggering commit)
+        type: string
+        required: false
 
 permissions:
   contents: read
@@ -21,6 +28,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || github.sha }}
       - name: Install, build, and upload site
         uses: withastro/action@v3
         with:
