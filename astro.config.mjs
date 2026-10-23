@@ -1,9 +1,9 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 
-// Where the site is served: '/website' for the GitHub Pages preview (ledengary.github.io/website/).
-// Switch to '/' (and add public/CNAME) for the custom domain. See docs/LAUNCH.md.
-const base = '/website';
+// Where the site is served: '/' on the custom domain www.khanmohammadi.me (public/CNAME).
+// Set to a sub-path such as '/website' to serve from ledengary.github.io/website/ instead. See docs/LAUNCH.md.
+const base = '/';
 
 export default defineConfig({
   site: 'https://www.khanmohammadi.me',

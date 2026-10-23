@@ -33,6 +33,7 @@
   white-space: nowrap;
 }
 .brand:hover { color: var(--accent); }
+.brand__name { white-space: nowrap; }
 .brand:has(.brand__photo) { display: inline-flex; align-items: center; gap: 0.6rem; }
 /* The Home intro's disc, small: same background, framing and soft shadow. */
 .brand__photo {
@@ -80,7 +81,8 @@
 .site-nav a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 
 @media (max-width: 799px) {
-  .site-header { position: static; }
+  /* Still pinned to the top; two rows, so anchors clear the taller header. */
+  :root { --nav-h: 96px; }
   .site-header__inner {
     flex-direction: column;
     justify-content: center;
@@ -89,6 +91,8 @@
     padding-block: 0.9rem 0.6rem;
   }
   .site-nav { gap: 1.4rem; }
+  /* The name always fits on one line: it scales down on narrow phones. */
+  .brand { font-size: clamp(0.82rem, 4.3vw, 1.05rem); letter-spacing: 0.05em; }
 }
 
 /* --------------------------------------------------------------------------
@@ -784,7 +788,7 @@
 
 .pub-theme + .pub-theme { margin-top: 2.75rem; }
 .is-filtered .pub-theme { margin-top: 0; } /* hidden themes before it would otherwise leave the gap */
-.pub-theme { scroll-margin-top: 80px; }
+.pub-theme { scroll-margin-top: calc(var(--nav-h) + 16px); }
 .pub-theme__title { font-size: 1.2rem; margin: 0 0 1.25rem; }
 .pub-group + .pub-group { margin-top: 1.75rem; }
 .pub-group__label { margin: 0 0 0.9rem; }
@@ -795,7 +799,7 @@
   grid-template-columns: 168px minmax(0, 1fr);
   column-gap: 1.25rem;
   align-items: start;
-  scroll-margin-top: 80px;  /* clear the sticky header on /research#id */
+  scroll-margin-top: calc(var(--nav-h) + 16px);  /* clear the sticky header on /research#id */
 }
 .paper + .paper { margin-top: 0.9rem; }
 /* Arriving at a paper by its link (e.g. CCPS from Home): its row lights up in a soft petrol box,
@@ -1089,7 +1093,8 @@
 /* TA courses: one compact line each. */
 .courses { list-style: none; margin: 0.4rem 0 0; padding: 0; font-size: 0.88rem; line-height: 1.6; color: var(--text); }
 .courses__name { color: var(--ink); font-weight: 500; }
-.materials { display: inline-flex; flex-wrap: nowrap; align-items: center; gap: 0.3rem; margin-left: 0.4rem; vertical-align: 0.05em; white-space: nowrap; }
+.materials { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 0.3rem; margin-left: 0.4rem; vertical-align: 0.05em; max-width: 100%; }
+.materials .link-btn { white-space: nowrap; }
 .materials .icon { width: 13px; height: 13px; color: var(--accent); }
 
 /* Compact rows: bold title and context in one paragraph, year on the right. */
