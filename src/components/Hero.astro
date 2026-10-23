@@ -41,7 +41,7 @@ const portrait = Object.values(found)[0];
       <h1 class="hero__name">{profile.name}</h1>
       <ul class="hero__roles">
         {profile.roles.map((r) => (
-          <li><strong>{r.title}</strong>, <Fragment set:html={inline(r.rest)} /></li>
+          <li><strong>{r.title}</strong><span class="hero__role-sep">, </span><span class="hero__role-rest" set:html={inline(r.rest)} /></li>
         ))}
       </ul>
       <ul class="hero__links">

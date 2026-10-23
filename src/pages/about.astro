@@ -24,7 +24,7 @@ const JUMPS = [
   ['experience', 'Experience'],
   ['honors', 'Honors'],
   ['media', 'In the Media'],
-  ['service', 'Service'],
+  ['service', 'Academic Service'],
   ['teaching', 'Teaching'],
   ['beyond', 'Beyond Research'],
 ] as const;
@@ -64,7 +64,7 @@ const JUMPS = [
     </figure>
   </Section>
 
-  <Section title="Service" id="service" alt rule>
+  <Section title="Academic Service" id="service" alt rule>
     <ul class="arows">{service.map((r) => <AboutRow row={r} />)}</ul>
   </Section>
 

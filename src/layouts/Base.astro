@@ -35,7 +35,7 @@ const canonical = new URL(path, Astro.site).href;
 const origin = base ? 'https://ledengary.github.io' : Astro.site!.origin;
 const portraits = import.meta.glob<ImageMetadata>('/src/assets/images/portrait.{jpg,jpeg,png,webp}', { eager: true, import: 'default' });
 const portrait = Object.values(portraits)[0];
-const og = portrait && (await getImage({ src: portrait, format: 'jpg', width: 1200, height: 1200, fit: 'cover' }));
+const og = portrait && (await getImage({ src: portrait, format: 'jpg', width: 1200, height: 1200, fit: 'cover', background: '#ecf4f6' })); // the Home disc's blue, not black, behind the transparent PNG
 const ogImage = og && new URL(og.src, origin).href;
 
 const personLd = person && {

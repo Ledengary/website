@@ -207,6 +207,13 @@
 
 .hero__body { flex: 1 1 auto; min-width: 0; }
 .hero__name { font-size: var(--fs-hero); letter-spacing: 0.005em; }
+@media (max-width: 599px) {
+  /* Phones: the name stays on one line (scales with the screen), and each role's place
+     starts its own line instead of breaking mid-name. */
+  .hero__name { white-space: nowrap; font-size: min(var(--fs-hero), 7.6vw); }
+  .hero__role-sep { display: none; }
+  .hero__role-rest { display: block; }
+}
 .hero__roles {
   list-style: none;
   margin: 0.6rem 0 0;
