@@ -23,7 +23,7 @@ interface Props {
 
 const { title, description, current, noindex = false, person = false } = Astro.props;
 const profile = (await getEntry('profile', 'profile'))!.data;
-const pageTitle = title ? `${title} · ${profile.name}` : `${profile.name} · Confidence Estimation for Language Models`;
+const pageTitle = title ? `${title} · ${profile.name}` : `${profile.name} · PhD Candidate & AI Researcher`;
 const desc = description ?? profile.seo.description;
 
 // Canonical URLs always use the real domain (astro.config `site`), without any preview base path.
